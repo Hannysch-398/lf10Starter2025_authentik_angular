@@ -5,7 +5,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', redirectTo: 'employees', pathMatch: 'full' },
   { path: 'callback', component: CallbackComponent },
   { path: 'employees', component: EmployeeListComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
