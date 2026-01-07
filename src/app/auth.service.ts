@@ -9,7 +9,7 @@ export class AuthService {
   private authConfig: AuthConfig = {
     issuer: 'http://localhost:9000/application/o/employee_api/',
     clientId: 'employee_api_client',
-    redirectUri: window.location.origin + '/callback',
+    redirectUri: 'http://localhost:4200/callback',
     responseType: 'code',
     scope: 'openid profile email offline_access',
     showDebugInformation: true,
@@ -65,7 +65,9 @@ export class AuthService {
   public async handleCallback(): Promise<boolean> {
     try {
       await this.configurePromise;
-      await this.oauthService.tryLogin();
+      await this.oauthService.tryLoginCodeFlow();
+      console.log("✅ token:", this.oauthService.getAccessToken());
+      console.log("✅ valid:", this.oauthService.hasValidAccessToken());
       return this.hasValidToken();
     } catch (error) {
       console.error('Fehler beim Login-Callback:', error);
@@ -89,4 +91,14 @@ export class AuthService {
   public getAccessToken(): string {
     return this.oauthService.getAccessToken();
   }
+
+  public ready(): Promise<void> {
+    return this.configurePromise;
+  }
+
+  public async tryRestoreLogin(): Promise<void> {
+    await this.configurePromise;
+    await this.oauthService.tryLoginCodeFlow();
+  }
+
 }

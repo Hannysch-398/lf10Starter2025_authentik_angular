@@ -24,13 +24,9 @@ export class EmployeeListComponent {
   }
 
   fetchData() {
-    const token = this.authService.getAccessToken();
-    this.employees$ = this.http.get<Employee[]>('http://localhost:8089/employees', {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        .set('Authorization', `Bearer ${token}`)
-    });
+    this.employees$ = this.http.get<Employee[]>('http://localhost:8089/employees');
   }
+
 
 
 }
