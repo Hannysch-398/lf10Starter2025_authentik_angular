@@ -5,21 +5,22 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-callback',
   standalone: true,
-  template: '<p>Processing login...</p>',
+  template: `<p>Logging in...</p>`,
 })
 export class CallbackComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   async ngOnInit() {
-    const success = await this.authService.handleCallback();
+    const ok = await this.auth.handleCallback();
 
-    if (success) {
-      this.router.navigate(['/employees']);
+    await this.auth.tryRestoreLogin();
+
+    if (ok) {
+      const returnUrl = sessionStorage.getItem('returnUrl') ?? '/employees';
+      sessionStorage.removeItem('returnUrl');
+      await this.router.navigateByUrl(returnUrl);
     } else {
-      this.router.navigate(['/']);
+      await this.router.navigateByUrl('/');
     }
   }
 }

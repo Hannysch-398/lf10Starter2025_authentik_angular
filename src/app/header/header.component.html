@@ -1,0 +1,63 @@
+<div class="header-wrapper">
+  <div class="mobile-wrapper">
+    <button
+      class="burger"
+      type="button"
+      (click)="toggleMobileMenu()"
+      [ngClass]="{ 'is-open': isOpen }"
+      aria-label="Open menu"
+      [attr.aria-expanded]="isOpen"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="mobile-image-wrapper">
+      <img [src]="'/hitecLogoSmall.png'" />
+    </div>
+  </div>
+
+  <!-- Menu Panel -->
+  <nav class="menu" [ngClass]="{ 'is-open': isOpen }">
+    <a href="/home" class="link-style">
+      <p>Home</p>
+      <span>&rarr;</span>
+    </a>
+    <a href="/employees" class="link-style">
+      <p>Mitarbeiter</p>
+      <span>&rarr;</span>
+    </a>
+    <a href="/qualifications" class="link-style">
+      <p>Qualifikationen</p>
+      <span>&rarr;</span>
+    </a>
+    <a href="/account" class="link-style">
+      <p>Account</p>
+      <span>&rarr;</span>
+    </a>
+    @if (auth.isLoggedIn()) {
+    <a (click)="logout()" class="logout">Logout</a>
+
+    } @else {
+    <a (click)="login()" class="login">Login</a>
+    }
+  </nav>
+
+  <div class="header-desktop">
+    <div class="logo-wrapper">
+      <img [src]="'/HiTecLogo.png'" />
+    </div>
+    <div class="link-wrapper">
+      <a href="/home">Home</a>
+      <a href="/employees">Mitarbeiter</a>
+      <a href="/qualifications">Qualifikationen</a>
+      <a href="/account">Account</a>
+      @if (auth.isLoggedIn()) {
+      <a (click)="logout()" class="logout">Logout</a>
+
+      } @else {
+      <a (click)="login()" class="login">Login</a>
+      }
+    </div>
+  </div>
+</div>

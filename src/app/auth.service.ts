@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { Router } from '@angular/router';
+import { Injectable, signal } from '@angular/core';
+import { AuthConfig, OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private authConfig: AuthConfig = {
     issuer: 'http://localhost:9000/application/o/employee_api/',
@@ -14,91 +11,77 @@ export class AuthService {
     scope: 'openid profile email offline_access',
     showDebugInformation: true,
     requireHttps: false,
-    postLogoutRedirectUri: window.location.origin,
-    strictDiscoveryDocumentValidation: false,  // Wichtig für Authentik!
+    postLogoutRedirectUri: 'http://localhost:4200/',
+    strictDiscoveryDocumentValidation: false,
   };
 
   private configurePromise: Promise<void>;
 
-  constructor(
-    private oauthService: OAuthService,
-    private router: Router
-  ) {
+  readonly isLoggedIn = signal<boolean>(false);
+
+  constructor(private oauthService: OAuthService) {
     this.configurePromise = this.configure();
+
+    this.oauthService.events.subscribe((_e: OAuthEvent) => {
+      this.syncLoginState();
+    });
   }
 
   private async configure() {
     this.oauthService.configure(this.authConfig);
+    await this.oauthService.loadDiscoveryDocument();
 
-    try {
-      // Discovery-Dokument laden
-      await this.oauthService.loadDiscoveryDocument();
+    this.syncLoginState();
 
-      // Authentik gibt die Endpoints als Arrays zurück, wir müssen sie normalisieren
-      const discoveryDoc = (this.oauthService as any).discoveryDocument;
-      if (discoveryDoc) {
-        const endpointFields = [
-          'authorization_endpoint',
-          'token_endpoint',
-          'userinfo_endpoint',
-          'jwks_uri',
-          'end_session_endpoint',
-          'revocation_endpoint',
-          'introspection_endpoint'
-        ];
-
-        endpointFields.forEach(field => {
-          if (Array.isArray(discoveryDoc[field]) && discoveryDoc[field].length > 0) {
-            discoveryDoc[field] = discoveryDoc[field][0];
-          }
-        });
-
-        (this.oauthService as any).discoveryDocument = discoveryDoc;
-      }
-
-      this.oauthService.setupAutomaticSilentRefresh();
-    } catch (error) {
-      console.error('Fehler beim Laden des Discovery-Dokuments:', error);
-    }
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
-  public async handleCallback(): Promise<boolean> {
-    try {
-      await this.configurePromise;
-      await this.oauthService.tryLoginCodeFlow();
-      console.log("✅ token:", this.oauthService.getAccessToken());
-      console.log("✅ valid:", this.oauthService.hasValidAccessToken());
-      return this.hasValidToken();
-    } catch (error) {
-      console.error('Fehler beim Login-Callback:', error);
-      return false;
-    }
+  private syncLoginState() {
+    this.isLoggedIn.set(this.oauthService.hasValidAccessToken());
   }
 
-  public async login() {
-    await this.configurePromise;
-    this.oauthService.initCodeFlow();
-  }
-
-  public logout() {
-    this.oauthService.logOut();
-  }
-
-  public hasValidToken(): boolean {
-    return this.oauthService.hasValidAccessToken();
-  }
-
-  public getAccessToken(): string {
-    return this.oauthService.getAccessToken();
-  }
-
-  public ready(): Promise<void> {
+  ready(): Promise<void> {
     return this.configurePromise;
   }
 
-  public async tryRestoreLogin(): Promise<void> {
+  async tryRestoreLogin(): Promise<void> {
     await this.configurePromise;
     await this.oauthService.tryLoginCodeFlow();
+    this.syncLoginState();
   }
 
+  async login(returnUrl?: string) {
+    await this.configurePromise;
+
+    if (returnUrl) sessionStorage.setItem('returnUrl', returnUrl);
+
+    this.oauthService.initCodeFlow();
+  }
+
+  logout() {
+    this.isLoggedIn.set(false);
+    sessionStorage.removeItem('returnUrl');
+
+    this.oauthService.logOut();
+  }
+
+  hasValidToken(): boolean {
+    return this.oauthService.hasValidAccessToken();
+  }
+
+  public async handleCallback(): Promise<boolean> {
+    await this.configurePromise;
+
+    try {
+      await this.oauthService.tryLoginCodeFlow();
+
+      this.isLoggedIn.set(this.oauthService.hasValidAccessToken());
+
+      return this.oauthService.hasValidAccessToken();
+    } catch (err) {
+      console.error('❌ Callback error:', err);
+      this.isLoggedIn.set(false);
+      return false;
+    }
+  }
 }
