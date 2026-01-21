@@ -21,7 +21,7 @@
       <div class="row">
         <div class="name">{{ q.name }}</div>
 
-        <!-- avatars -->
+        <!-- avatars later will add photos of the Employee-->
         <div class="people">
           @for (e of q.employees.slice(0, 2); track e.id) {
             <div class="avatar">
@@ -38,7 +38,7 @@
           }
         </div>
 
-        <!-- arrow -->
+        <!-- arrow up and down -->
         <button class="arrow" type="button" (click)="toggle(q.name)">
           {{ expandedQualification() === q.name ? '▲' : '▼' }}
         </button>
