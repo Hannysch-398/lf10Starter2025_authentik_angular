@@ -4,6 +4,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { CallbackComponent } from './callback/callback.component';
 import { authGuard } from './auth.guard';
 import { QualificationsOverviewComponent } from './pages/qualifications-overview/qualifications-overview.component';
+import {QualificationDetailComponent} from "./pages/qualification-detail/qualification-detail.component";
 
 export const routes: Routes = [
 
@@ -18,6 +19,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent, title: 'Home' },
       { path: 'employees', component: EmployeeListComponent, title: 'Mitarbeiter' },
       { path: 'qualifications', component: QualificationsOverviewComponent, title: 'Qualifikationen' },
+      { path: 'qualifications/:skill', component: QualificationDetailComponent, title: 'Qualifikation' },
+
       // { path: 'account', component: AccountComponent, title: 'Account' }
     ],
   },

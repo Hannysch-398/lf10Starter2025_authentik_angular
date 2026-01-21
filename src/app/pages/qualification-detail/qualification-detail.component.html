@@ -1,0 +1,40 @@
+<p>qualification-detail works!</p>
+
+
+<div class="page">
+  <a class="back" routerLink="/qualifications">← Back</a>
+
+  @if (qualification(); as q) {
+    <h1 class="title">{{ q.name }}</h1>
+
+    <div class="add-box">
+      <input
+        type="text"
+        placeholder="First name + Last name"
+        [ngModel]="newEmployeeName()"
+        (ngModelChange)="newEmployeeName.set($event)"
+      />
+      <button type="button" (click)="addEmployee()">Add employee</button>
+    </div>
+
+    <div class="details">
+      @for (e of q.employees; track e.id) {
+        <div class="employee">
+          <div class="big-avatar">
+            @if (e.avatarUrl) {
+              <img [src]="e.avatarUrl" alt="avatar" />
+            } @else {
+              <span>{{ e.name[0] }}</span>
+            }
+          </div>
+          <div class="employee-name">{{ e.name }}</div>
+        </div>
+      } @empty {
+        <div class="empty">No employees yet.</div>
+      }
+    </div>
+  } @else {
+    <h1 class="title">Skill not found</h1>
+    <p>Check the URL.</p>
+  }
+</div>
