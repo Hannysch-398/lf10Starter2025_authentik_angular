@@ -1,1 +1,143 @@
-<p>employee-add works!</p>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+<form (submit)="submitForm()" novalidate class="employee-form">
+
+  <div class="form-header">
+    <h2>Mitarbeiter hinzufügen</h2>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Vorname</span>
+      <input type="text" [formField]="empForm.firstName" placeholder=""
+             [class.invalid]="empForm.firstName().invalid() && empForm.firstName().touched()" />
+      @if (empForm.firstName().invalid() && empForm.firstName().touched()) {
+        <span class="error-text">{{ empForm.firstName().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">Nachname</span>
+      <input type="text" [formField]="empForm.lastName" placeholder=""
+             [class.invalid]="empForm.lastName().invalid() && empForm.lastName().touched()" />
+      @if (empForm.lastName().invalid() && empForm.lastName().touched()) {
+        <span class="error-text">{{ empForm.lastName().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Straße</span>
+      <input type="text" [formField]="empForm.street" placeholder=""
+             [class.invalid]="empForm.street().invalid() && empForm.street().touched()" />
+      @if (empForm.street().invalid() && empForm.street().touched()) {
+        <span class="error-text">{{ empForm.street().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">PLZ</span>
+      <input type="text" [formField]="empForm.postcode" placeholder=""
+             [class.invalid]="empForm.postcode().invalid() && empForm.postcode().touched()" />
+      @if (empForm.postcode().invalid() && empForm.postcode().touched()) {
+        <span class="error-text">{{ empForm.postcode().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Stadt</span>
+      <input type="text" [formField]="empForm.city" placeholder=""
+             [class.invalid]="empForm.city().invalid() && empForm.city().touched()" />
+      @if (empForm.city().invalid() && empForm.city().touched()) {
+        <span class="error-text">{{ empForm.city().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">Telefon</span>
+      <input type="text" [formField]="empForm.phone" placeholder=""
+             [class.invalid]="empForm.phone().invalid() && empForm.phone().touched()" />
+      @if (empForm.phone().invalid() && empForm.phone().touched()) {
+        <span class="error-text">{{ empForm.phone().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="empForm().submitting()">Add Employee</button>
+    <button type="button" (click)="resetForm()">Reset</button>
+  </div>
+</form>
+
+
+
+
+
+<!--
+
+<form (submit)="submitForm()" novalidate>
+
+  <div class="form-header">
+  <h2>Mitarbeiter hinzufügen</h2>
+  </div>
+  <div class="form-row">
+
+    <label>
+      <span class="label-text">First Name</span>
+      <input type="text" [formField]="empForm.firstName" placeholder="Vorname"
+             [class.invalid]="empForm.firstName().invalid()"
+      />
+      @if (empForm.firstName().touched() && empForm.firstName().invalid()) {
+        <ul class="error-list">
+            <span class="error-overlay">
+      {{ empForm.firstName().errors()?.[0]?.message }}
+    </span>
+
+        </ul>
+
+
+
+
+      }
+    </label>
+
+    <label>
+      <span class="label-text">Last Name</span>
+      <input type="text" [formField]="empForm.lastName" placeholder="Nachname" />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Street</span>
+      <input type="text" [formField]="empForm.street" placeholder="Straße" />
+    </label>
+
+    <label>
+      <span class="label-text">Postcode</span>
+      <input type="text" [formField]="empForm.postcode" placeholder="PLZ" />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">City</span>
+      <input type="text" [formField]="empForm.city" placeholder="Stadt" />
+    </label>
+
+    <label>
+      <span class="label-text">Phone</span>
+      <input type="text" [formField]="empForm.phone" placeholder="Telefon" />
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="empForm().submitting()">Add Employee</button>
+    <button type="button" (click)="resetForm()">Reset</button>
+  </div>
+</form>
+-->
