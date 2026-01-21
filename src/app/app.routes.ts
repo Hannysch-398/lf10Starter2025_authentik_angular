@@ -3,17 +3,24 @@ import { HomeComponent } from './home/home.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { CallbackComponent } from './callback/callback.component';
 import { authGuard } from './auth.guard';
-import {QualificationsOverviewComponent} from "./pages/qualifications-overview/qualifications-overview.component";
-
+import { QualificationsOverviewComponent } from './pages/qualifications-overview/qualifications-overview.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+
   { path: 'callback', component: CallbackComponent },
-  { path: 'employees', component: EmployeeListComponent, canActivate: [authGuard] },
-
-  { path: 'qualifications', component: QualificationsOverviewComponent },
-
-  { path: '**', redirectTo: '' },
 
 
+  {
+    path: '',
+    canActivateChild: [authGuard],
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, title: 'Home' },
+      { path: 'employees', component: EmployeeListComponent, title: 'Mitarbeiter' },
+      { path: 'qualifications', component: QualificationsOverviewComponent, title: 'Qualifikationen' },
+      // { path: 'account', component: AccountComponent, title: 'Account' }
+    ],
+  },
+
+  { path: '**', redirectTo: '' }
 ];
