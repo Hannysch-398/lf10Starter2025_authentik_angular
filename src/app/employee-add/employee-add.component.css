@@ -1,0 +1,108 @@
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-family: 'Inter', sans-serif; /* moderne Schrift */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.employee-form h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-family: 'Inter', sans-serif;
+}
+
+label {
+  flex: 1;
+  min-width: 150px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  max-width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 5px;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #a0c4ff;
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+}
+
+button[type="button"]:hover {
+  background-color: #495057;
+}
+.error-text {
+  color: #d93025;
+  font-size: 0.85rem;
+  margin-top: 0.25rem; /* Abstand unter Input */
+}
+
+input.invalid {
+  border-color: #d93025;
+  background-color: #fff5f5;
+}
+.input-wrapper {
+   position: relative;
+ }
+
+.error-overlay {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 0.75rem;
+  color: #d93025;
+  pointer-events: none;
+}
+

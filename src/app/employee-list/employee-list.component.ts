@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of } from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Employee } from "../Employee";
 import { AuthService } from "../auth.service";
@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent {
+ // private employeesSubject = new BehaviorSubject<Employee[]>([]);
   employees$: Observable<Employee[]>;
 
   constructor(
@@ -28,6 +29,10 @@ export class EmployeeListComponent {
     this.employees$ = this.http.get<Employee[]>('http://localhost:8089/employees');
   }
 
+ /* addEmployee(emp: Employee) {
+    this.employeesSubject.next([...this.employeesSubject.value, emp]);
+  }
 
+  */
 
 }
