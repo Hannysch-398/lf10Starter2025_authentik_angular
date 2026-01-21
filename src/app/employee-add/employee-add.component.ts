@@ -13,9 +13,9 @@ import {EmployeeListComponent} from "../employee-list/employee-list.component";
   selector: 'app-employee-add',
   standalone: true,
   imports: [
-    Field,
-    FormField,
-    EmployeeListComponent
+
+    FormField
+
   ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.css'
