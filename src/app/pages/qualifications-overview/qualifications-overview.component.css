@@ -13,7 +13,6 @@
   margin-bottom: 16px;
 }
 
-/* SEARCH */
 .search {
   display: flex;
   align-items: center;
@@ -38,7 +37,6 @@
   cursor: pointer;
 }
 
-/* LIST */
 .list {
   display: flex;
   flex-direction: column;
@@ -66,7 +64,7 @@
   gap: 8px;
 }
 
-/* AVATARS */
+
 .avatar,
 .big-avatar {
   border-radius: 50%;
@@ -108,7 +106,7 @@
   cursor: pointer;
 }
 
-/* DETAILS */
+
 .details {
   padding: 12px 24px;
   background: #fafafa;
@@ -134,18 +132,130 @@
   font-size: 18px;
   font-weight: 600;
 }
-/* Force blue */
+
 .arrow {
-  color: #0dcaf0 !important;
+  color: #26669b !important;
   background: transparent !important;
   border: none !important;
 }
 
 .searchBtn {
-  background: #0dcaf0 !important;
+  background: #26669b !important;
   color: #ffffff !important;
   border: none !important;
 }
 
 
+  /* Responsive (Mobile/Tablet)*/
 
+/* Tablet and down */
+@media (max-width: 768px) {
+  .page {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .search {
+    max-width: 100%;
+  }
+
+  .row {
+    padding: 12px 12px;
+  }
+
+  .name {
+    font-size: 16px;
+  }
+
+  .details {
+    padding: 12px 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .page {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+
+  .toolbar {
+    margin-bottom: 12px;
+  }
+
+  .search {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    height: 38px;
+    padding: 0 10px;
+  }
+
+  .searchBtn {
+    height: 38px;
+    width: 42px;
+  }
+
+
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+  }
+
+
+  .arrow {
+    align-self: flex-end;
+    margin-top: -32px;
+  }
+
+
+  .people {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .more {
+    font-size: 13px;
+  }
+
+  /* details spacing */
+  .details {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+
+
+  .employee {
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 6px 6px;
+    border-radius: 10px;
+  }
+
+  .big-avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .employee-name {
+    font-size: 16px;
+  }
+}
