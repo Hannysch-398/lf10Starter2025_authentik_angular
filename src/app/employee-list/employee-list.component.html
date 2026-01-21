@@ -1,9 +1,23 @@
-<h1>LF10-Starter</h1>
-Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
-<ul>
-  @for(e of employees$ | async; track e.id) {
-    <li>
-      {{e.lastName }}, {{e.firstName}}
-    </li>
-  }
-</ul>
+<div class="employee-container">
+  <div *ngFor="let emp of filteredEmployees()" class="employee-row" (click)="selectEmployee(emp)">
+
+    <div class="avatar-circle">
+      {{ emp.firstName?.[0] }}{{ emp.lastName?.[0] }}
+    </div>
+
+    <div class="employee-info">
+      <span class="name">{{ emp.firstName }} {{ emp.lastName }}</span>
+
+      <div class="skills-tags">
+        <span *ngFor="let s of emp.skillSet" class="skill-badge">
+          {{ s.skill }}
+        </span>
+        <span *ngIf="!emp.skillSet?.length" class="no-skill">Keine Qualifikation</span>
+      </div>
+    </div>
+
+    <div class="contact-info">
+      <span>{{ emp.phone }}</span>
+    </div>
+  </div>
+</div>

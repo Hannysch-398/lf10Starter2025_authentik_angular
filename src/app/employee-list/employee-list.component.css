@@ -1,0 +1,298 @@
+/* الحاوية الكبرى */
+.main-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* --- قسم التفاصيل الجانبي --- */
+.details-section {
+  width: 380px;
+  flex-shrink: 0;
+  border-right: 2px solid #f0f0f0;
+  padding: 30px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-link-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 50px;
+  padding: 0;
+  font-weight: 500;
+  text-align: left;
+}
+
+.profile-main-info {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.avatar-large {
+  width: 110px;
+  height: 110px;
+  background: #e9ecef;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #495057;
+  font-weight: bold;
+  border: 3px solid #f8f9fa;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #212529;
+}
+
+/* قسم المؤهلات */
+.qualifications-section {
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.qual-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.label-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 0.5px;
+  margin-top: 5px;
+}
+
+.qual-badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+  max-width: 70%;
+}
+
+.skill-badge {
+  background: #f3f0ff;
+  color: #5f33e1;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* القائمة المنسدلة والأزرار المصغرة */
+.qual-actions-box {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.qual-dropdown {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+.btn-group-horizontal {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-outline-sm, .btn-outline-danger-sm {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  cursor: pointer;
+}
+
+.btn-purple-sm {
+  background: #5f33e1;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  flex: 1;
+}
+
+/* --- قسم القائمة الرئيسي --- */
+.list-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  background: #fafafa;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.col-info {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.col-role {
+  flex: 1;
+}
+
+.col-actions {
+  width: 50px;
+}
+
+.scrollable-area {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.employee-row {
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 1px solid #f8f8f8;
+  cursor: pointer;
+}
+
+.employee-row.active {
+  background: #f0f7ff;
+  border-left: 5px solid #5f33e1;
+}
+
+.avatar-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #444;
+}
+
+.name-text {
+  font-weight: 600;
+  font-size: 15px;
+  color: #222;
+}
+
+.status-tag {
+  font-size: 12px;
+  color: #777;
+}
+
+.role-badge {
+  background: #f3f0ff;
+  color: #5f33e1;
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 130px;
+  display: inline-block;
+}
+
+/* البار السفلي */
+.action-bar {
+  padding: 20px 30px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-wrapper input {
+  width: 280px;
+  padding: 10px 15px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.btn-purple {
+  background: #5f33e1;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-outline {
+  border: 1px solid #dee2e6;
+  background: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-outline-danger {
+  border: 1px solid #f8d7da;
+  color: #dc3545;
+  background: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 380px;
+  text-align: center;
+}
