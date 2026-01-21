@@ -2,15 +2,18 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
-export const authGuard: CanActivateFn = async () => {
-  const authService = inject(AuthService);
+export const authGuard: CanActivateFn = async (route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
 
-  await authService.ready();
+  await auth.ready();
 
-  if (authService.hasValidToken()) {
-    return true;
-  }
+  await auth.tryRestoreLogin();
 
-  await authService.login();
-  return false;
+  if (auth.hasValidToken()) return true;
+
+  auth.login(state.url); // startet Redirect
+  return router.createUrlTree(['/callback'], {
+    queryParams: { returnUrl: state.url },
+  });
 };
