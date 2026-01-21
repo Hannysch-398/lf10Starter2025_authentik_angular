@@ -100,7 +100,6 @@ export class EmployeeAddComponent {
     return field.invalid() && field.touched();
   }
 
-  //addForm = form(this.addModel);
 
 }
 
