@@ -1,4 +1,190 @@
-/* الحاوية الكبرى */
+.employee-container {
+  padding: 20px;
+  background-color: #E6F0F8;
+}
+
+.employee-row {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f5;
+  transition: background 0.2s ease;
+}
+
+.employee-row:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px #5997c7;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  background-color: #e6f0f8;
+  color: #26669b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+  font-size: 13px;
+  margin-right: 15px;
+
+}
+
+.skill-badge {
+  background-color: #E6F0F8;
+  color: #075488;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 6px;
+  border: 1px solid #d2e3fc;
+  display: inline-block;
+}
+
+
+.back-link-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 50px;
+  font-weight: 500;
+  padding: 0;
+}
+
+
+.qualifications-container {
+  padding-top: 25px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.qual-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.qual-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 0.5px;
+}
+
+.qual-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+
+.skill-badge-purple {
+  background-color: #E6F0F8;
+  color: #075488;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+.avatar-large {
+  width: 100px;
+  height: 100px;
+  background-color: #e6f0f8;
+  color: #26669b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+
+}
+
+
+.main-container {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background: #f8f9fa;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.details-section {
+  width: 380px;
+  flex-shrink: 0;
+  border-right: 2px solid #f0f0f0;
+  padding: 30px;
+}
+
+.list-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+
+.back-link-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+
+.qual-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.qual-badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+
+.skill-badge {
+  background-color: #E6F0F8;
+  color: #075488;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
 .main-container {
   width: 100%;
   height: 100vh;
@@ -7,6 +193,7 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
 
 .content-wrapper {
   display: flex;
@@ -18,7 +205,7 @@
   overflow: hidden;
 }
 
-/* --- قسم التفاصيل الجانبي --- */
+
 .details-section {
   width: 380px;
   flex-shrink: 0;
@@ -29,134 +216,12 @@
   flex-direction: column;
 }
 
-.back-link-btn {
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 14px;
-  cursor: pointer;
-  margin-bottom: 50px;
-  padding: 0;
-  font-weight: 500;
-  text-align: left;
-}
 
-.profile-main-info {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.avatar-large {
-  width: 110px;
-  height: 110px;
-  background: #e9ecef;
-  border-radius: 50%;
-  margin: 0 auto 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  color: #495057;
-  font-weight: bold;
-  border: 3px solid #f8f9fa;
-}
-
-.profile-name {
-  font-size: 24px;
-  font-weight: 700;
-  color: #212529;
-}
-
-/* قسم المؤهلات */
-.qualifications-section {
-  padding-top: 20px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.qual-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.label-text {
-  font-size: 11px;
-  font-weight: 700;
-  color: #999;
-  letter-spacing: 0.5px;
-  margin-top: 5px;
-}
-
-.qual-badges-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: flex-end;
-  max-width: 70%;
-}
-
-.skill-badge {
-  background: #f3f0ff;
-  color: #5f33e1;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-/* القائمة المنسدلة والأزرار المصغرة */
-.qual-actions-box {
-  background: #fafafa;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-}
-
-.qual-dropdown {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background: white;
-  font-size: 14px;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 14px;
-}
-
-.btn-group-horizontal {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.btn-outline-sm, .btn-outline-danger-sm {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-  background: #fff;
-  cursor: pointer;
-}
-
-.btn-purple-sm {
-  background: #5f33e1;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-  flex: 1;
-}
-
-/* --- قسم القائمة الرئيسي --- */
 .list-section {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .list-header {
@@ -164,8 +229,10 @@
   align-items: center;
   padding: 20px 30px;
   background: #fafafa;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid #5A97C7;
+  margin-bottom: 10px
 }
+
 
 .col-info {
   flex: 2;
@@ -176,16 +243,17 @@
 
 .col-role {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .col-actions {
-  width: 50px;
+  width: 60px;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.scrollable-area {
-  flex: 1;
-  overflow-y: auto;
-}
 
 .employee-row {
   display: flex;
@@ -193,68 +261,90 @@
   padding: 15px 30px;
   border-bottom: 1px solid #f8f8f8;
   cursor: pointer;
+  transition: 0.2s;
 }
+
 
 .employee-row.active {
   background: #f0f7ff;
   border-left: 5px solid #5f33e1;
 }
 
+
 .avatar-circle {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: #eee;
+  background-color: #e6f0f8;
+  color: #26669b;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: #444;
+
+  flex-shrink: 0;
+}
+
+.name-box {
+  display: flex;
+  flex-direction: column;
 }
 
 .name-text {
   font-weight: 600;
   font-size: 15px;
-  color: #222;
+  color: #212529;
 }
 
 .status-tag {
   font-size: 12px;
-  color: #777;
+  color: #6c757d;
 }
+
 
 .role-badge {
   background: #f3f0ff;
   color: #5f33e1;
-  padding: 6px 15px;
+  padding: 6px 20px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 500;
-  min-width: 130px;
-  display: inline-block;
+  min-width: 140px;
+  text-align: center;
 }
 
-/* البار السفلي */
+
 .action-bar {
   padding: 20px 30px;
   border-top: 1px solid #f0f0f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: white;
+}
+
+.search-wrapper {
+  flex: 1;
+  margin-right: 20px;
 }
 
 .search-wrapper input {
-  width: 280px;
+  width: 100%;
   padding: 10px 15px;
   border: 1px solid #dee2e6;
   border-radius: 8px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
 }
 
 .btn-purple {
   background: #5f33e1;
   color: white;
   border: none;
-  padding: 10px 22px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -262,7 +352,7 @@
 .btn-outline {
   border: 1px solid #dee2e6;
   background: white;
-  padding: 10px 22px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -271,11 +361,12 @@
   border: 1px solid #f8d7da;
   color: #dc3545;
   background: white;
-  padding: 10px 22px;
+  padding: 10px 20px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
-/* Modal */
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -293,6 +384,182 @@
   background: white;
   padding: 30px;
   border-radius: 15px;
-  width: 380px;
+  width: 400px;
   text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.list-header {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 2px solid #eaedf0;
+  color: #5A97C7;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.name-col, .name-section {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+
+.qual-col, .qualifications-section {
+  flex: 1;
+}
+
+
+.radio-section {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.radio-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 25px;
+  width: 25px;
+}
+
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+
+.radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.radio-container input:checked ~ .checkmark {
+  background-color: #26669b;
+}
+
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e6f0f8;
+}
+
+
+.list-header {
+  display: flex;
+  padding: 10px 20px;
+  border-bottom: 2px solid #eaedf0;
+  font-weight: bold;
+  font-size: 12px;
+  color: #26669b;
+}
+
+.radio-col {
+  width: 40px;
+}
+
+
+.name-col, .name-section {
+  flex: 2;
+}
+
+.qual-col, .qualifications-section {
+  flex: 1;
+}
+
+
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+.footer-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+.action-btn {
+  padding: 0 20px;
+}
+
+.add-btn-custom {
+  background-color: #26669b !important;
+  color: white !important;
+}
+
+
+.edit-btn-custom {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ddd !important;
+}
+
+
+.delete-btn-custom {
+  background-color: white !important;
+  color: #d93025 !important;
+  border: 1px solid #ddd !important;
+}
+
+
+.mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
 }

@@ -1,23 +1,58 @@
 <div class="employee-container">
-  <div *ngFor="let emp of filteredEmployees()" class="employee-row" (click)="selectEmployee(emp)">
+  <div class="list-header">
+    <span class="header-item radio-col"></span>
+    <span class="header-item name-col">NAME</span>
+    <span class="header-item qual-col">QUALIFIKATIONEN</span>
+  </div>
 
-    <div class="avatar-circle">
-      {{ emp.firstName?.[0] }}{{ emp.lastName?.[0] }}
-    </div>
+  @for (emp of filteredEmployees(); track emp.id) {
+    <div class="employee-row" (click)="selectEmployee(emp)">
 
-    <div class="employee-info">
-      <span class="name">{{ emp.firstName }} {{ emp.lastName }}</span>
+      <div class="radio-section">
+        <label class="radio-container">
+          <input type="radio" name="selectedEmployee" [value]="emp.id">
+          <span class="checkmark"></span>
+        </label>
+      </div>
 
-      <div class="skills-tags">
-        <span *ngFor="let s of emp.skillSet" class="skill-badge">
-          {{ s.skill }}
-        </span>
-        <span *ngIf="!emp.skillSet?.length" class="no-skill">Keine Qualifikation</span>
+      <div class="name-section">
+        <div class="avatar-circle">
+          {{ emp.firstName?.[0] }}{{ emp.lastName?.[0] }}
+        </div>
+        <div class="employee-text">
+          <span class="full-name">{{ emp.firstName }} {{ emp.lastName }}</span>
+          <span class="status-label">Verfügbar</span>
+        </div>
+      </div>
+
+      <div class="qualifications-section">
+        <div class="skills-tags">
+          @if (emp.skillSet?.length) {
+            @for (s of emp.skillSet; track s) {
+              <span class="skill-badge">{{ s.skill }}</span>
+            }
+          } @else {
+            <span class="no-skill">Keine Qualifikation</span>
+          }
+        </div>
       </div>
     </div>
 
-    <div class="contact-info">
-      <span>{{ emp.phone }}</span>
-    </div>
-  </div>
+  }
+</div>
+<div class="footer-action-bar">
+  <button mat-flat-button class="add-btn-custom" (click)="addEmployee()">
+    <mat-icon>person_add</mat-icon>
+    Mitarbeiter hinzufügen
+  </button>
+
+  <button mat-stroked-button class="edit-btn-custom" (click)="editEmployee()" [disabled]="!selectedEmployee">
+    <mat-icon>edit</mat-icon>
+    Bearbeiten
+  </button>
+
+  <button mat-stroked-button class="delete-btn-custom" (click)="deleteEmployee()" [disabled]="!selectedEmployee">
+    <mat-icon>delete</mat-icon>
+    Löschen
+  </button>
 </div>

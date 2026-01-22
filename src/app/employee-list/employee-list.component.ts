@@ -1,13 +1,16 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { EmployeeService } from '../employee.service';
-import { Employee } from '../Employee';
-import { FormsModule } from '@angular/forms';
+import {Component, inject, signal, computed, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {EmployeeService} from '../employee.service';
+import {Employee} from '../Employee';
+import {FormsModule} from '@angular/forms';
+import {MatIcon} from "@angular/material/icon";
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIcon, MatIconModule, MatButtonModule],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css'
 })
@@ -36,35 +39,16 @@ export class EmployeeListComponent implements OnInit {
     this.selectedEmployee.set(emp);
   }
 
-  toggleEditView() {
-    if (this.selectedEmployee()) {
-      this.isEditMode.set(true);
-    }
+
+  protected addEmployee() {
+
   }
 
-  closeEditView() {
-    this.isEditMode.set(false);
-    this.selectedEmployee.set(null);
+  protected editEmployee() {
+
   }
 
-  openDeleteDialog() {
-    if (this.selectedEmployee()) {
-      this.showDeleteModal.set(true);
-    }
-  }
+  protected deleteEmployee() {
 
-  executeDelete() {
-    const id = this.selectedEmployee()?.id;
-    if (id) {
-      this.employeeService.deleteEmployee(id).subscribe({
-        next: () => {
-          this.employeeService.fetchData();
-          this.showDeleteModal.set(false);
-          this.isEditMode.set(false);
-          this.selectedEmployee.set(null);
-        },
-        error: (err) => console.error('Löschen fehlgeschlagen', err)
-      });
-    }
   }
 }
