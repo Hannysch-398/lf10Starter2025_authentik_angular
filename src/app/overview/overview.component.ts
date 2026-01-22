@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-overview',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
+
+  readonly auth = inject(AuthService);
 
 }
