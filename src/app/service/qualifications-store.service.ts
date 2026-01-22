@@ -16,8 +16,8 @@ export class QualificationsStore {
   private nextEmployeeId = 1000;
 
   qualifications = signal<Qualification[]>([
-    { name: 'Java', employees: [{ id: 1, name: 'Max Mustermann' }] },
-    { name: 'Angular', employees: [{ id: 2, name: 'Susanne Musterfrau' }] },
+    { name: 'Java', employees: [{ id: 1, name: 'Max' }] },
+    { name: 'Angular', employees: [{ id: 2, name: 'Susanne' }] },
     { name: 'Docker', employees: [] },
     { name: 'SQL', employees: [] },
   ]);
@@ -50,4 +50,19 @@ export class QualificationsStore {
   slugify(name: string) {
     return name.trim().toLowerCase().replace(/\s+/g, '-');
   }
+
+
+  removeEmployeeFromQualification(slug: string, employeeId: number) {
+    this.qualifications.update(list =>
+      list.map(q => {
+        if (this.slugify(q.name) !== slug) return q;
+
+        return {
+          ...q,
+          employees: q.employees.filter(e => e.id !== employeeId),
+        };
+      })
+    );
+  }
+
 }

@@ -1,6 +1,3 @@
-<p>qualification-detail works!</p>
-
-
 <div class="page">
   <a class="back" routerLink="/qualifications">← Back</a>
 
@@ -22,13 +19,23 @@
         <div class="employee">
           <div class="big-avatar">
             @if (e.avatarUrl) {
-              <img [src]="e.avatarUrl" alt="avatar" />
+              <img [src]="e.avatarUrl" alt="avatar"/>
             } @else {
               <span>{{ e.name[0] }}</span>
             }
           </div>
           <div class="employee-name">{{ e.name }}</div>
         </div>
+        <button
+          class="trash"
+          type="button"
+          aria-label="Remove employee"
+          (click)="removeEmployee(e.id)"
+        >
+          🗑️
+        </button>
+
+
       } @empty {
         <div class="empty">No employees yet.</div>
       }

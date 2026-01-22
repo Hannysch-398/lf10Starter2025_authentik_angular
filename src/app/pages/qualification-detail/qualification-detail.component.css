@@ -43,6 +43,8 @@
   padding: 12px 16px;
   background: #fafafa;
   border-radius: 12px;
+  display: flex;
+  /*justify-content: space-between;*/
 }
 
 .employee {
@@ -51,6 +53,7 @@
   gap: 12px;
   padding: 8px;
   border-radius: 10px;
+  width: 100%;
 }
 
 .employee:hover {
@@ -74,7 +77,23 @@
 }
 
 .employee-name {
+  flex: 1;
   font-weight: 600;
+}
+
+.trash {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px;
+  border-radius: 8px;
+  margin-left: auto;
+}
+
+
+.trash:hover {
+  background: #eee;
 }
 
 .empty {

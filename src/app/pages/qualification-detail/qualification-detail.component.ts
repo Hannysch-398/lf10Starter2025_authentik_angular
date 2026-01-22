@@ -27,4 +27,9 @@ export class QualificationDetailComponent {
     this.store.addEmployeeToQualification(this.skillSlug(), this.newEmployeeName());
     this.newEmployeeName.set('');
   }
+
+  removeEmployee(employeeId: number) {
+    this.store.removeEmployeeFromQualification(this.skillSlug(), employeeId);
+  }
+
 }
