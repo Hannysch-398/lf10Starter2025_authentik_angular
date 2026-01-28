@@ -6,11 +6,10 @@
   </div>
 
   @for (emp of filteredEmployees(); track emp.id) {
-    <div class="employee-row" (click)="selectEmployee(emp)">
-
+    <div class="employee-row" (click)="selectEmployee(emp)" [class.active]="selectedEmployee()?.id === emp.id">
       <div class="radio-section">
         <label class="radio-container">
-          <input type="radio" name="selectedEmployee" [value]="emp.id">
+          <input type="radio" name="selectedEmployee" [value]="emp.id" [checked]="selectedEmployee()?.id === emp.id">
           <span class="checkmark"></span>
         </label>
       </div>
@@ -28,7 +27,7 @@
       <div class="qualifications-section">
         <div class="skills-tags">
           @if (emp.skillSet?.length) {
-            @for (s of emp.skillSet; track s) {
+            @for (s of emp.skillSet; track s.id) {
               <span class="skill-badge">{{ s.skill }}</span>
             }
           } @else {
@@ -37,22 +36,154 @@
         </div>
       </div>
     </div>
-
   }
 </div>
+
 <div class="footer-action-bar">
   <button mat-flat-button class="add-btn-custom" (click)="addEmployee()">
     <mat-icon>person_add</mat-icon>
     Mitarbeiter hinzufügen
   </button>
 
-  <button mat-stroked-button class="edit-btn-custom" (click)="editEmployee()" [disabled]="!selectedEmployee">
-    <mat-icon>edit</mat-icon>
-    Bearbeiten
-  </button>
-
-  <button mat-stroked-button class="delete-btn-custom" (click)="deleteEmployee()" [disabled]="!selectedEmployee">
+  <button mat-stroked-button class="delete-btn-custom" (click)="deleteEmployee()" [disabled]="!selectedEmployee()">
     <mat-icon>delete</mat-icon>
     Löschen
   </button>
+
+  <button mat-stroked-button class="edit-btn-custom" (click)="editEmployee()" [disabled]="!selectedEmployee()">
+    <mat-icon>edit</mat-icon>
+    Bearbeiten
+  </button>
+</div>
+
+<div class="overlay" [class.visible]="isEditMode()" (click)="closeEdit()"></div>
+
+<div class="edit-panel" [class.open]="isEditMode()">
+  <div class="edit-header">
+    <button mat-icon-button (click)="closeEdit()">
+      <mat-icon class="edit-dialog-close">close</mat-icon>
+    </button>
+    <h2>Mitarbeiter bearbeiten</h2>
+  </div>
+  <hr class="header-divider">
+
+  @if (selectedEmployee(); as emp) {
+    <div class="edit-container-inner">
+
+      <div class="row">
+        <div class="edit-field half">
+          <label>Vorname</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.firstName" name="firstName" required #firstName="ngModel"
+                   [class.invalid-border]="firstName.invalid && firstName.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (firstName.invalid && firstName.touched) {
+            <small class="error-text">Vorname ist erforderlich</small>
+          }
+        </div>
+
+        <div class="edit-field half">
+          <label>Nachname</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.lastName" name="lastName" required #lastName="ngModel"
+                   [class.invalid-border]="lastName.invalid && lastName.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (lastName.invalid && lastName.touched) {
+            <small class="error-text">Nachname ist erforderlich</small>
+          }
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label>Straße</label>
+        <div class="input-wrapper">
+          <input [(ngModel)]="emp.street" name="street" required #street="ngModel"
+                 [class.invalid-border]="street.invalid && street.touched">
+          <mat-icon>edit</mat-icon>
+        </div>
+        @if (street.invalid && street.touched) {
+          <small class="error-text">Straße ist erforderlich</small>
+        }
+      </div>
+
+      <div class="row">
+        <div class="edit-field small">
+          <label>PLZ</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.postcode" name="postcode" required #postcode="ngModel"
+                   [class.invalid-border]="postcode.invalid && postcode.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (postcode.invalid && postcode.touched) {
+            <small class="error-text">PLZ fehlt</small>
+          }
+        </div>
+
+        <div class="edit-field large">
+          <label>Stadt</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.city" name="city" required #city="ngModel"
+                   [class.invalid-border]="city.invalid && city.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (city.invalid && city.touched) {
+            <small class="error-text">Stadt ist erforderlich</small>
+          }
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label>Qualifikationen (Skills)</label>
+
+        <div class="skills-selection-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Qualifikation auswählen</mat-label>
+            <mat-select (selectionChange)="addSkillFromDropdown($event.value)">
+              @for (skillOption of allAvailableSkills(); track skillOption.id) {
+                <mat-option [value]="skillOption">{{ skillOption.skill }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="separator"><span>oder manuell hinzufügen</span></div>
+
+          <div class="input-wrapper add-skill-box">
+            <input #newSkillInput
+                   placeholder="Neue Qualifikation tippen..."
+                   (keyup.enter)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+            <button mat-icon-button (click)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="skills-container-panel" [class.invalid-skills]="emp.skillSet.length === 0">
+          <mat-chip-set>
+            @for (s of emp.skillSet; track s.id) {
+              <mat-chip (removed)="removeSkill(s)">
+                {{ s.skill }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+
+        @if (emp.skillSet.length === 0) {
+          <small class="error-text">Mindestens eine Qualifikation ist erforderlich</small>
+        }
+      </div>
+
+      <div class="edit-actions-panel">
+        <button mat-raised-button color="primary" (click)="saveChanges()"
+                [disabled]="!emp.firstName || !emp.lastName || !emp.postcode || emp.skillSet.length === 0">
+          Speichern
+        </button>
+        <button mat-button (click)="closeEdit()">Abbrechen</button>
+      </div>
+    </div>
+  }
 </div>

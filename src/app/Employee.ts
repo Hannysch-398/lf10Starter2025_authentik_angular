@@ -1,6 +1,14 @@
 export interface Skill {
   id: number;
   skill: string;
+  firstName: string;
+  lastName: string;
+  street: string;
+  postcode: number;
+  city: string;
+  phone: string;
+
+
 }
 
 export class Employee {
