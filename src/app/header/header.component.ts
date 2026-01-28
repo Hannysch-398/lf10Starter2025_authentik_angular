@@ -5,11 +5,11 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   imports: [
     NgClass
   ],
   templateUrl: './header.component.html',
+  standalone: true,
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
