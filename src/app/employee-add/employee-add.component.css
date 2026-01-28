@@ -1,14 +1,8 @@
 .employee-form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  font-family: 'Inter', sans-serif; /* moderne Schrift */
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two equal columns */
+  gap: 16px; /* space between columns */
+  max-width: 600px; /* optional max width */
 }
 
 .employee-form h2 {
@@ -106,3 +100,101 @@ input.invalid {
   pointer-events: none;
 }
 
+
+
+.checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* space between checkboxes horizontally */
+}
+
+.skill-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.skill-label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 220px;  /* small width */
+  gap: 6px;
+}
+
+.dropdown-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;   /* use full width of parent row */
+  gap: 6px;
+}
+
+.dropdown-btn {
+  width: 100%;   /* fill parent row */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+
+
+.dropdown-item {
+  display: flex;          /* make checkbox and text inline */
+  align-items: center;    /* vertically center checkbox and text */
+  gap: 6px;               /* space between checkbox and text */
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.selected-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.skill-badge {
+  background-color: #3b82f6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+.form-row.full-width {
+  grid-column: 1 / -1; /* span from first to last column */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: auto; /* don’t force 100% */
+}

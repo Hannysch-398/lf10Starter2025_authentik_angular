@@ -7,6 +7,7 @@ export interface EmployeeCreateDto {
   postcode: string;
   city: string;
   phone: string;
+  skills: string[];
 }
 export const initialData: EmployeeCreateDto = {
   firstName: '',
@@ -15,4 +16,5 @@ export const initialData: EmployeeCreateDto = {
   postcode: '',
   city: '',
   phone: '',
+  skills: [],
 }

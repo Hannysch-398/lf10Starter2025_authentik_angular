@@ -52,10 +52,13 @@ export class EmployeeAddComponent {
     required(schemaPath.phone, {
       message: 'Telefonnummer eingeben'
     });
-    pattern(schemaPath.phone, /[0-9]/, {
-      message: 'Nur Zahlen erlaubt'
+    pattern(schemaPath.phone, /^[0-9]{5}$/, {
+      message: 'Nur Zahlen erlaubt und die Postleitzahl muss 5-stellig sein'
     });
+
+    required(schemaPath.skills, { message: 'Bitte mindestens einen Skill auswählen' });
     }
+
 
   );
 
@@ -90,62 +93,6 @@ export class EmployeeAddComponent {
     });
   }
 
-   // const dto: EmployeeCreateDto = this.empForm().value;
-
-   /* this.http.post('http://localhost:8089/employees', dto).subscribe({
-      next: () => this.router.navigate(['/employees']),
-      error: err => console.error('Add employee error:', err),
-    });
-
-    */
-    //const v = this.empForm().value;
-    /*
-    const emp: Employee = new Employee(
-      3,
-      this.empForm.lastName,
-      this.empForm.firstName,
-      this.empForm.street,
-      this.empForm.postcode,
-      this.empForm.city,
-      this.empForm.phone
-    );
-
-
-    //this.service.addEmployee(emp);
-    console.log('Adding employee:', emp);
-    //this.router.navigate(['/employees']);
-
-
-
-    this.http.post('http://localhost:8089/employees', emp)
-      .subscribe({
-        next: () => this.router.navigate(['/employees']),
-        error: err => console.error('Add employee error:', err)
-      });
-    console.log('Adding employee:', emp);
-    console.log('POST payload:', emp);
-
-     */
-    /*const v = this.empForm(); // ⚡ gibt FieldNodes zurück
-
-    const emp: Employee = new Employee (
-
-      firstName: value.firstName,
-      this.empForm.lastName().value,
-      this.empForm.street().value,
-      this.empForm.postcode().value,
-      this.empForm.city().value,
-      this.empForm.phone().value,
-  );
-
-     */
-
-
-
-
-
-
-
   resetForm() {
     // alle Felder auf den ursprünglichen empModel-Wert zurücksetzen
     this.empModel.set({
@@ -154,7 +101,8 @@ export class EmployeeAddComponent {
       street: '',
       postcode: '',
       city: '',
-      phone: ''
+      phone: '',
+      skills: [],
     });
 
     // zusätzlich die Form-Fehler zurücksetzen
@@ -165,6 +113,73 @@ export class EmployeeAddComponent {
     return field.invalid() && field.touched();
   }
 
+  addSkill() {
+    const skills = this.empModel().skills;
+    this.empModel.update(emp => ({ ...emp, skills: [...skills, ''] }));
+  }
 
+  removeSkill(index: number) {
+    const skills = this.empModel().skills.filter((_, i) => i !== index);
+    this.empModel.update(emp => ({ ...emp, skills }));
+  }
+
+  updateSkill(index: number, value: string) {
+    const skills = [...this.empModel().skills];
+    skills[index] = value;
+    this.empModel.update(emp => ({ ...emp, skills }));
+  }
+  availableSkills = ['Angular', 'TypeScript', 'Java', 'Spring Boot', 'HTML/CSS', 'React'];
+
+  onSkillsChange(event: Event) {
+    console.log('Available skills:', this.availableSkills);
+
+    const select = event.target as HTMLSelectElement;
+    const selected = Array.from(select.selectedOptions).map(option => option.value);
+    console.log('Selected skills:', selected); // ⚡ log here
+    // update signal
+    this.empModel.update(emp => ({ ...emp, skills: selected }));
+  }
+  onSkillInput(event: Event, index: number) {
+    const input = event.target as HTMLInputElement;
+    this.updateSkill(index, input.value);
+  }
+
+  toggleSkill(skill: string, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    const skills = [...this.empModel().skills];
+
+    if (checked) {
+      // Add skill if checked
+      skills.push(skill);
+    } else {
+      // Remove skill if unchecked
+      const index = skills.indexOf(skill);
+      if (index > -1) skills.splice(index, 1);
+    }
+
+    // Update the signal
+    this.empModel.update(emp => ({ ...emp, skills }));
+  }
+
+  dropdownOpen = signal(false);
+
+  toggleDropdown() {
+    this.dropdownOpen.update(open => !open);
+  }
+
+
+  toggleSkill2(skill: string, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    const skills = [...this.empModel().skills];
+
+    if (checked) {
+      skills.push(skill);
+    } else {
+      const index = skills.indexOf(skill);
+      if (index > -1) skills.splice(index, 1);
+    }
+
+    this.empModel.update(emp => ({ ...emp, skills }));
+  }
 }
 

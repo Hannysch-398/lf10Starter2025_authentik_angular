@@ -1,5 +1,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
 
 <!--<form (submit)="submitForm()" novalidate class="employee-form">-->
   <form (submit)="$event.preventDefault(); submitForm()">
@@ -27,6 +30,40 @@
       }
     </label>
   </div>
+
+    <div class="form-row full-width">
+    <div class="dropdown-wrapper">
+      <!-- Dropdown button -->
+      <button type="button" class="dropdown-btn" (click)="toggleDropdown()">
+        Select Skills
+        @if (empModel().skills.length > 0) {
+          <span class="selected-count">({{ empModel().skills.length }})</span>
+        }
+        <i class="fa-solid fa-chevron-down dropdown-arrow" [class.rotate]="dropdownOpen()"></i>
+      </button>
+
+      <!-- Dropdown menu (scrollable) -->
+      @if (dropdownOpen()) {
+        <div class="dropdown-menu scrollable">
+          @for (skill of availableSkills; track skill; let i = $index) {
+            <label class="dropdown-item">
+              <input type="checkbox"
+                     [checked]="empModel().skills.includes(skill)"
+                     (change)="toggleSkill(skill, $event)" />
+              {{ skill }}
+            </label>
+          }
+        </div>}
+
+        <!-- Selected skills badges below -->
+        <div class="selected-skills">
+          @for (skill of empModel().skills; track skill) {
+            <span class="skill-badge">{{ skill }}</span>
+          }
+        </div>
+        </div>
+    </div>
+
 
   <div class="form-row">
     <label>
@@ -72,6 +109,7 @@
     <button type="submit" [disabled]="empForm().submitting()">Add Employee</button>
     <button type="button" (click)="resetForm()">Reset</button>
   </div>
+
 </form>
 
 
