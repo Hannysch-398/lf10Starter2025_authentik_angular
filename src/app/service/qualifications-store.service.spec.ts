@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QualificationsStoreService } from './qualifications-store.service';
+ import { QualificationsStore } from './qualifications-store.service';
 
-describe('QualificationsStoreService', () => {
-  let service: QualificationsStoreService;
+describe('QualificationsStore', () => {
+  let service: QualificationsStore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(QualificationsStoreService);
+    service = TestBed.inject(QualificationsStore);
   });
 
   it('should be created', () => {

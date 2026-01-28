@@ -4,16 +4,6 @@ import { CommonModule } from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {QualificationsStore} from "../../service/qualifications-store.service";
 
-/*interface Employee {
-  id: number;
-  name: string;
-  avatarUrl?: string;
-}
-
-interface Qualification {
-  name: string;
-  employees: Employee[];
-}*/
 
 @Component({
   selector: 'app-qualifications-overview',
@@ -30,29 +20,16 @@ export class QualificationsOverviewComponent {
   // UI state as signals
   searchValue = signal('');
 
+  editingSlug = signal<string | null>(null);
+  editValue = signal('');
+
+  deleteModalOpen = signal(false);
+  deleteTargetName = signal<string | null>(null);
+
+
   constructor(public store: QualificationsStore) {}
 
 
-  // data as signal
-/*  qualifications = signal<Qualification[]>([
-    {
-      name: 'Java',
-      employees: [
-        { id: 1, name: 'Max Mustermann' },
-        { id: 2, name: 'Max Mustermann' },
-        { id: 3, name: 'Max Mustermann' }
-      ]
-    },
-    { name: 'Angular', employees: [{ id: 4, name: 'Max Mustermann' }] },
-    {
-      name: 'Docker',
-      employees: [
-        { id: 5, name: 'Max Mustermann' },
-        { id: 6, name: 'Max Mustermann' }
-      ]
-    },
-    { name: 'SQL', employees: [] }
-  ]);*/
 
   expandedQualification = signal<string | null>(null);
 
@@ -90,10 +67,71 @@ export class QualificationsOverviewComponent {
   }
 
 
+
   slugify(name: string) {
-    return name.trim().toLowerCase().replace(/\s+/g, '-');
+    return this.store.slugify(name);
   }
 
+
+  startEdit(qName: string) {
+    const slug = this.slugify(qName);
+    this.editingSlug.set(slug);
+    this.editValue.set(qName);
+  }
+
+  cancelEdit() {
+    this.editingSlug.set(null);
+    this.editValue.set('');
+  }
+
+  saveEdit(oldName: string) {
+    const slug = this.slugify(oldName);
+    this.store.renameQualification(slug, this.editValue());
+    this.cancelEdit();
+  }
+
+  deleteQualification(qName: string) {
+    const slug = this.slugify(qName);
+
+    const ok = confirm(`Delete "${qName}"?`);
+    if (!ok) return;
+
+    this.store.removeQualification(slug);
+
+    // close dorpdown
+    if (this.expandedQualification() === qName) {
+      this.expandedQualification.set(null);
+    }
+  }
+
+
+
+
+  // window
+  openDeleteModal(qName: string) {
+    this.deleteTargetName.set(qName);
+    this.deleteModalOpen.set(true);
+  }
+
+  closeDeleteModal() {
+    this.deleteModalOpen.set(false);
+    this.deleteTargetName.set(null);
+  }
+
+  confirmDelete() {
+    const qName = this.deleteTargetName();
+    if (!qName) return;
+
+    const slug = this.slugify(qName);
+    this.store.removeQualification(slug);
+
+    // close dropdown
+    if (this.expandedQualification() === qName) {
+      this.expandedQualification.set(null);
+    }
+
+    this.closeDeleteModal();
+  }
 
 
 }

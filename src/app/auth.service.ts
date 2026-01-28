@@ -68,7 +68,7 @@ export class AuthService {
   hasValidToken(): boolean {
     return this.oauthService.hasValidAccessToken();
   }
-/*maybe !! */
+/* maybe !! */
   getAccessToken(): string {
     return this.oauthService.getAccessToken();
   }

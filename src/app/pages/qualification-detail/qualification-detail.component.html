@@ -25,15 +25,16 @@
             }
           </div>
           <div class="employee-name">{{ e.name }}</div>
+          <button
+            class="trash"
+            type="button"
+            aria-label="Remove employee"
+            (click)="removeEmployee(e.id)"
+          >
+            🗑️
+          </button>
         </div>
-        <button
-          class="trash"
-          type="button"
-          aria-label="Remove employee"
-          (click)="removeEmployee(e.id)"
-        >
-          🗑️
-        </button>
+
 
 
       } @empty {
@@ -44,4 +45,6 @@
     <h1 class="title">Skill not found</h1>
     <p>Check the URL.</p>
   }
+
+
 </div>
