@@ -1,11 +1,16 @@
 import {Component, inject, signal} from '@angular/core';
-import {Employee} from "../Employee";
+import {Employee, Skill, initialData} from "../Employee";
 import {Field, form, FormField, pattern, required} from "@angular/forms/signals";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {EmployeeService} from "../employee.service";
-import {EmployeeCreateDto, initialData} from "../EmployeeCreateDTO";
+//import {EmployeeSkill, initialData, Skills} from "../EmployeeSkill";
+import {MatDialog} from "@angular/material/dialog";
+import {MatFormField, MatLabel} from "@angular/material/input";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
+import {MatChip, MatChipSet} from "@angular/material/chips";
 
 export interface EmployeeFormModel {
   firstName: string;
@@ -20,15 +25,23 @@ export interface EmployeeFormModel {
   selector: 'app-employee-add',
   standalone: true,
   imports: [
-    FormField
+    FormField,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatIcon,
+
   ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.css'
 })
-export class EmployeeAddComponent {
+class EmployeeAddComponent {
 
-  empModel = signal<EmployeeCreateDto>(initialData);
-
+  empModel= signal<Skill>({ ...initialData });
+  private employeeService = inject(EmployeeService);
+  private dialog = inject(MatDialog);
+  availableSkills = signal<Skill[]>([]);
 
   empForm = form(this.empModel, (schemaPath) => {
       required(schemaPath.firstName, {
@@ -43,20 +56,18 @@ export class EmployeeAddComponent {
     required(schemaPath.postcode, {
       message: 'Postleitzahl eingeben'
     });
-    pattern(schemaPath.postcode, /[0-9]/, {
-      message: 'Nur Zahlen erlaubt'
-    });
+
     required(schemaPath.city, {
       message: 'Stadt eingeben'
     });
     required(schemaPath.phone, {
       message: 'Telefonnummer eingeben'
     });
-    pattern(schemaPath.phone, /^[0-9]{5}$/, {
+    pattern(schemaPath.postcode, /^[0-9]{5}$/, {
       message: 'Nur Zahlen erlaubt und die Postleitzahl muss 5-stellig sein'
     });
 
-    required(schemaPath.skills, { message: 'Bitte mindestens einen Skill auswählen' });
+    required(schemaPath.skill, { message: 'Bitte mindestens einen Skill auswählen' });
     }
 
 
@@ -96,13 +107,14 @@ export class EmployeeAddComponent {
   resetForm() {
     // alle Felder auf den ursprünglichen empModel-Wert zurücksetzen
     this.empModel.set({
+      id: null,
       firstName: '',
       lastName: '',
       street: '',
       postcode: '',
       city: '',
       phone: '',
-      skills: [],
+      skill: '',
     });
 
     // zusätzlich die Form-Fehler zurücksetzen
@@ -114,21 +126,17 @@ export class EmployeeAddComponent {
   }
 
   addSkill() {
-    const skills = this.empModel().skills;
+    const skills = this.empModel().skill;
     this.empModel.update(emp => ({ ...emp, skills: [...skills, ''] }));
   }
 
-  removeSkill(index: number) {
-    const skills = this.empModel().skills.filter((_, i) => i !== index);
-    this.empModel.update(emp => ({ ...emp, skills }));
-  }
 
   updateSkill(index: number, value: string) {
-    const skills = [...this.empModel().skills];
+    const skills = [...this.empModel().skill];
     skills[index] = value;
     this.empModel.update(emp => ({ ...emp, skills }));
   }
-  availableSkills = ['Angular', 'TypeScript', 'Java', 'Spring Boot', 'HTML/CSS', 'React'];
+
 
   onSkillsChange(event: Event) {
     console.log('Available skills:', this.availableSkills);
@@ -144,42 +152,55 @@ export class EmployeeAddComponent {
     this.updateSkill(index, input.value);
   }
 
-  toggleSkill(skill: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    const skills = [...this.empModel().skills];
 
-    if (checked) {
-      // Add skill if checked
-      skills.push(skill);
-    } else {
-      // Remove skill if unchecked
-      const index = skills.indexOf(skill);
-      if (index > -1) skills.splice(index, 1);
-    }
 
-    // Update the signal
-    this.empModel.update(emp => ({ ...emp, skills }));
+
+
+
+  ngOnInit() {
+    this.employeeService.fetchData();
+    this.loadAllSkills();
   }
 
-  dropdownOpen = signal(false);
-
-  toggleDropdown() {
-    this.dropdownOpen.update(open => !open);
+  loadAllSkills() {
+    this.employeeService.getQualifications().subscribe({
+      next: (skills: Skill[]) => this.availableSkills.set(skills),
+      error: err => console.error('Fehler beim Laden der Skills', err)
+    });
   }
 
+  addSkillFromDropdown(skill: Skill) {
+    this.empModel.update(model => {
+      if (model.skill.includes(skill.skill)) {
+        return model;
+      }
 
-  toggleSkill2(skill: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    const skills = [...this.empModel().skills];
+      return {
+        ...model,
+        skills: [...model.skill, skill.skill],
+      };
+    });
+  }
 
-    if (checked) {
-      skills.push(skill);
-    } else {
-      const index = skills.indexOf(skill);
-      if (index > -1) skills.splice(index, 1);
-    }
+  addSkillManually(skillName: string) {
+    if (!skillName.trim()) return;
 
-    this.empModel.update(emp => ({ ...emp, skills }));
+    this.employeeService.createNewQualification(skillName).subscribe({
+      next: (newSkill) => {
+
+        // 1️⃣ add to available skills
+        this.availableSkills.update(skills => [...skills, newSkill]);
+
+        // 2️⃣ add to the employee being created
+        this.empModel.update(emp => ({
+          ...emp,
+          skills: [...emp.skill, newSkill.skill]
+        }));
+      },
+      error: () => alert('Fehler beim Erstellen der Qualifikation')
+    });
   }
 }
+
+export default EmployeeAddComponent
 

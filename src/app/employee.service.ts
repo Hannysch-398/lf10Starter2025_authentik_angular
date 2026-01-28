@@ -1,6 +1,7 @@
 import {HttpClient} from "@angular/common/http";
 import {inject, Injectable, signal} from "@angular/core";
-import {Employee} from "./Employee";
+import {Employee, Skill} from "./Employee";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import {Employee} from "./Employee";
 export class EmployeeService {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:8089/employees';
+  private qualUrl = 'http://localhost:8089/qualifications';
 
   employees = signal<Employee[]>([]);
 
@@ -40,6 +42,13 @@ export class EmployeeService {
       },
       error: (err) => console.error('Add employee error:', err)
     });
+  }
+
+  getQualifications(): Observable<Skill[]> {
+    return this.http.get<Skill[]>(this.qualUrl);
+  }
+  createNewQualification(skillName: string): Observable<Skill> {
+    return this.http.post<Skill>(this.qualUrl, { skill: skillName });
   }
 }
 

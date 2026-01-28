@@ -1,9 +1,13 @@
 .employee-form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* two equal columns */
-  gap: 16px; /* space between columns */
-  max-width: 600px; /* optional max width */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
 }
+
+
+
 
 .employee-form h2 {
   text-align: center;
@@ -20,6 +24,7 @@
   flex-wrap: wrap;
   font-family: 'Inter', sans-serif;
 }
+
 
 label {
   flex: 1;
@@ -198,3 +203,35 @@ input.invalid {
   gap: 6px;
   width: auto; /* don’t force 100% */
 }
+.small-icon-btn {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;       /* rundes Button */
+  background-color: #26669b; /* optional Farbe */
+  color: white;
+}
+
+.add-skill-box{
+  display: flex;             /* Horizontale Ausrichtung */
+  gap: 6px;                  /* Abstand zwischen Input und Button */
+  align-items: center;
+}
+.small-icon-btn mat-icon {
+  font-size: 20px !important;     /* Icon proportional */
+  width: 20px !important;         /* Icon quadratisch */
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;      /* entfernt Inline-Stretch */
+}
+
+
+
