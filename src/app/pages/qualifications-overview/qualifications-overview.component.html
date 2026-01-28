@@ -64,7 +64,7 @@
               @if (e.avatarUrl) {
                 <img [src]="e.avatarUrl" alt="avatar" />
               } @else {
-                <span>{{ e.name[0] }}</span>
+                <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
               }
             </div>
           }
@@ -89,10 +89,10 @@
                 @if (e.avatarUrl) {
                   <img [src]="e.avatarUrl" alt="avatar" />
                 } @else {
-                  <span>{{ e.name[0] }}</span>
+                  <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
                 }
               </div>
-              <div class="employee-name">{{ e.name }}</div>
+              <div class="employee-name">{{ e.lastName }}, {{ e.firstName }}</div>
             </a>
           }
         </div>

@@ -15,16 +15,16 @@
     </div>
 
     <div class="details">
-      @for (e of q.employees; track e.id) {
+      @for (e of employeesForSkill(); track e.id) {
         <div class="employee">
           <div class="big-avatar">
             @if (e.avatarUrl) {
               <img [src]="e.avatarUrl" alt="avatar"/>
             } @else {
-              <span>{{ e.name[0] }}</span>
+              <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
             }
           </div>
-          <div class="employee-name">{{ e.name }}</div>
+          <div class="employee-name">{{ e.lastName }}, {{ e.firstName }}</div>
           <button
             class="trash"
             type="button"
@@ -34,9 +34,6 @@
             🗑️
           </button>
         </div>
-
-
-
       } @empty {
         <div class="empty">No employees yet.</div>
       }
@@ -45,6 +42,4 @@
     <h1 class="title">Skill not found</h1>
     <p>Check the URL.</p>
   }
-
-
 </div>

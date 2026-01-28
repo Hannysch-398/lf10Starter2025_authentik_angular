@@ -1,52 +1,119 @@
-import { Injectable, signal } from '@angular/core';
-
-
-// Employee model
-export interface Employee {
-  id: number;
-  name: string;
-  avatarUrl?: string;
-}
-
-// Qualification model
-//  skill name  example java
-// employees =>>> list of employees who have this skill
+import { Injectable, signal, inject, effect } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Employee, Skill } from '../Employee';
 
 export interface Qualification {
+  skillId: number;
   name: string;
   employees: Employee[];
 }
 
-
-/*
-QualificationsStore = "Single Source of Truth" for qualifications data.
-
-Why we created it?
-1- So multiple pages can share the same data (overview + detail page)
-2- So UI components stay clean (no data logic duplicated everywhere)
-3- Later we can replace in-memory data with API calls, without changing UI logic much
-*/
-
 @Injectable({ providedIn: 'root' })
 export class QualificationsStore {
+  private http = inject(HttpClient);
+  private qualUrl = 'http://localhost:8089/qualifications';
 
+  private nextSkillId = 1;
 
-  // Wird verwendet, um neue IDs für Mitarbeiter zu generieren, die über die Benutzeroberfläche hinzugefügt werden (temporary for in memory)
-  private nextEmployeeId = 1000;
+  qualifications = signal<Qualification[]>([]);
 
+  private qualificationsApi = toSignal(
+    this.http.get<Skill[]>(this.qualUrl),
+    { initialValue: [] as Skill[] }
+  );
 
-  /*
-   * Main shared data (Signal):
-   * - Holds the entire list of qualifications
-   * - Any update here automatically updates all UI components using it (Reactive UI)
-   */
+  constructor() {
+    effect(() => {
+      const list = this.qualificationsApi() ?? [];
 
-  qualifications = signal<Qualification[]>([
-    { name: 'Java', employees: [{ id: 1, name: 'Max' }] },
-    { name: 'Angular', employees: [{ id: 2, name: 'Susanne' }] },
-    { name: 'Docker', employees: [] },
-    { name: 'SQL', employees: [] },
-  ]);
+      const maxId = list.reduce((m, s) => Math.max(m, s.id ?? 0), 0);
+      this.nextSkillId = maxId + 1;
+
+      this.qualifications.set(
+        list
+          .filter(s => typeof s.id === 'number')
+          .map(s => ({
+            skillId: s.id,
+            name: s.skill,
+            employees: []
+          }))
+      );
+    });
+  }
+
+  reload(): void {
+    this.http.get<Skill[]>(this.qualUrl).subscribe({
+      next: (list) => {
+        const maxId = list.reduce((m, s) => Math.max(m, s.id ?? 0), 0);
+        this.nextSkillId = maxId + 1;
+
+        this.qualifications.set(
+          list
+            .filter(s => typeof s.id === 'number')
+            .map(s => ({
+              skillId: s.id,
+              name: s.skill,
+              employees: []
+            }))
+        );
+      },
+      error: (err) => {
+        console.error('Fetch error:', err);
+        this.qualifications.set([]);
+      }
+    });
+  }
+
+  createNewQualification(skillName: string): Observable<Skill> {
+    const name = skillName.trim();
+    if (!name) return throwError(() => new Error('skillName is empty'));
+
+    const req$ = this.http.post<Skill>(this.qualUrl, { skill: name });
+
+    req$.subscribe({
+      next: (created) => {
+        const ensured: Skill = {
+          ...created,
+          skill: created?.skill ?? name,
+          id: created?.id ?? this.nextSkillId++
+        };
+
+        this.qualifications.update(list => [
+          ...list,
+          { skillId: ensured.id, name: ensured.skill, employees: [] }
+        ]);
+      },
+      error: (err) => console.error('Create error:', err)
+    });
+
+    return req$;
+  }
+
+  removeQualificationById(skillId: number) {
+    this.http.delete(`${this.qualUrl}/${skillId}`).subscribe({
+      next: () => {
+        this.qualifications.update(list => list.filter(q => q.skillId !== skillId));
+      },
+      error: (err) => console.error('Delete error:', err)
+    });
+  }
+
+  renameQualificationById(skillId: number, newName: string) {
+    const name = newName.trim();
+    if (!name) return;
+
+    this.http.put<Skill>(`${this.qualUrl}/${skillId}`, { skill: name }).subscribe({
+      next: (updated) => {
+        const finalName = updated?.skill ?? name;
+        this.qualifications.update(list =>
+          list.map(q => (q.skillId !== skillId ? q : { ...q, name: finalName }))
+        );
+      },
+      error: (err) => console.error('Update error:', err)
+    });
+  }
 
   findBySlug(slug: string): Qualification | null {
     const list = this.qualifications();
@@ -54,63 +121,7 @@ export class QualificationsStore {
     return q ?? null;
   }
 
-  addEmployeeToQualification(slug: string, fullName: string) {
-    const name = fullName.trim();
-    if (!name) return;
-
-    this.qualifications.update(list =>
-      list.map(q => {
-        if (this.slugify(q.name) !== slug) return q;
-
-        return {
-          ...q,
-          employees: [
-            ...q.employees,
-            { id: this.nextEmployeeId++, name }
-          ]
-        };
-      })
-    );
-  }
-
-
-  // * ConvertsExample: "My Skill" -> "my-skill"
   slugify(name: string) {
     return name.trim().toLowerCase().replace(/\s+/g, '-');
   }
-
-
-  removeEmployeeFromQualification(slug: string, employeeId: number) {
-    this.qualifications.update(list =>
-      list.map(q => {
-        if (this.slugify(q.name) !== slug) return q;
-
-        return {
-          ...q,
-          employees: q.employees.filter(e => e.id !== employeeId),
-        };
-      })
-    );
-  }
-
-
-  removeQualification(slug: string) {
-    this.qualifications.update(list =>
-      list.filter(q => this.slugify(q.name) !== slug)
-    );
-  }
-
-  renameQualification(slug: string, newName: string) {
-    const name = newName.trim();
-    if (!name) return;
-
-    this.qualifications.update(list =>
-      list.map(q => {
-        if (this.slugify(q.name) !== slug) return q;
-        return { ...q, name };
-      })
-    );
-  }
-
-
 }

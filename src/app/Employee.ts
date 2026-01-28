@@ -24,3 +24,18 @@ export class Employee {
   ) {
   }
 }
+
+export interface Employee {
+  id: number;
+  firstName: string;
+  lastName: string;
+  street?: string;
+  postcode?: string;
+  city?: string;
+  phone?: string;
+  // Backend-Feldname!
+  skillSet: Skill[];
+  // optional fürs UI (nicht vom Backend zwingend)
+  avatarUrl?: string;
+
+}
