@@ -1,4 +1,20 @@
 <div class="employee-container">
+  <div class="search-wrapper">
+    <div class="custom-search-field">
+      <mat-icon class="search-icon">search</mat-icon>
+
+      <input type="text"
+             [ngModel]="searchTerm()"
+             (ngModelChange)="searchTerm.set($event)"
+             placeholder="Mitarbeiter suchen...">
+
+      @if (searchTerm()) {
+        <button class="clear-btn" (click)="searchTerm.set('')" type="button">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
   <div class="list-header">
     <span class="header-item radio-col"></span>
     <span class="header-item name-col">NAME</span>
@@ -64,6 +80,22 @@
       <mat-icon class="edit-dialog-close">close</mat-icon>
     </button>
     <h2>Mitarbeiter bearbeiten</h2>
+    <div class="edit-profile-section" *ngIf="selectedEmployee()">
+      <div class="profile-avatar-wrapper">
+        <div class="large-avatar">
+          {{ selectedEmployee()?.firstName?.[0] }}{{ selectedEmployee()?.lastName?.[0] }}
+        </div>
+
+        <button class="edit-photo-btn" type="button">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="profile-info-text">
+        <h3>{{ selectedEmployee()?.firstName }} {{ selectedEmployee()?.lastName }}</h3>
+
+      </div>
+    </div>
   </div>
   <hr class="header-divider">
 

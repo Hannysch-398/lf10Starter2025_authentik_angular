@@ -63,10 +63,12 @@ export class EmployeeListComponent implements OnInit {
   allAvailableSkills = signal<Skill[]>([]);
 
   filteredEmployees = computed(() => {
-    const term = this.searchTerm().toLowerCase();
-    return this.employeeService.employees().filter(e =>
-      e.firstName?.toLowerCase().includes(term) ||
-      e.lastName?.toLowerCase().includes(term)
+    const term = this.searchTerm().toLowerCase().trim();
+    const allEmployees = this.employeeService.employees();
+    if (!term) return allEmployees;
+    return allEmployees.filter(emp =>
+      emp.firstName?.toLowerCase().includes(term) ||
+      emp.lastName?.toLowerCase().includes(term)
     );
   });
 
