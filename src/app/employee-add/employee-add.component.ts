@@ -88,8 +88,6 @@ class EmployeeAddComponent {
     }
 
     const dto = this.empForm().value();
-    console.log(this.empForm().value);
-    console.log('POST payload:', dto);
     this.http.post('http://localhost:8089/employees', dto).subscribe({
       next: () => {
 
@@ -139,11 +137,9 @@ class EmployeeAddComponent {
 
 
   onSkillsChange(event: Event) {
-    console.log('Available skills:', this.availableSkills);
-
     const select = event.target as HTMLSelectElement;
     const selected = Array.from(select.selectedOptions).map(option => option.value);
-    console.log('Selected skills:', selected); // ⚡ log here
+
     // update signal
     this.empModel.update(emp => ({ ...emp, skills: selected }));
   }

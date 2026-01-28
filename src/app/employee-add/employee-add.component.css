@@ -41,6 +41,7 @@ input {
   border-radius: 6px;
   font-size: 1rem;
   max-width: 100%;
+  margin: 1rem 0;
 }
 
 input:focus {
@@ -67,7 +68,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--primary);
 }
 
 button:disabled {
@@ -189,7 +190,7 @@ input.invalid {
 }
 
 .skill-badge {
-  background-color: #3b82f6;
+  background-color: var(--primary);
   color: white;
   padding: 4px 8px;
   border-radius: 12px;
@@ -213,14 +214,14 @@ input.invalid {
   display: flex !important;
   align-items: center;
   justify-content: center;
-  border-radius: 20%;       /* rundes Button */
-  background-color: #26669b; /* optional Farbe */
+  border-radius: 20%;
+  background-color: var(--primary);
   color: white;
 }
 
 .add-skill-box{
-  display: flex;             /* Horizontale Ausrichtung */
-  gap: 6px;                  /* Abstand zwischen Input und Button */
+  display: flex;
+  gap: 6px;
   align-items: center;
 }
 .small-icon-btn mat-icon {

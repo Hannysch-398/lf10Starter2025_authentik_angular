@@ -34,15 +34,7 @@ export class EmployeeService {
   }
 
 
-  addEmployee(emp: Employee) {
-    console.log('Service addEmployee called:', emp);
-    this.http.post<Employee>(this.baseUrl, emp).subscribe({
-      next: (newEmp) => {
-        this.employees.update(list => [...list, newEmp]);
-      },
-      error: (err) => console.error('Add employee error:', err)
-    });
-  }
+
 
   getQualifications(): Observable<Skill[]> {
     return this.http.get<Skill[]>(this.qualUrl);
