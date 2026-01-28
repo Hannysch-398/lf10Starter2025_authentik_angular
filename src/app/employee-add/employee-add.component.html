@@ -1,7 +1,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 
-<form (submit)="submitForm()" novalidate class="employee-form">
+<!--<form (submit)="submitForm()" novalidate class="employee-form">-->
+  <form (submit)="$event.preventDefault(); submitForm()">
 
   <div class="form-header">
     <h2>Mitarbeiter hinzufügen</h2>
