@@ -637,7 +637,7 @@ mat-chip {
 .large-avatar {
   width: 100%;
   height: 100%;
-  background-color: #d1c4e9; /* لون بنفسجي فاتح كما في الصورة */
+  background-color: #d1c4e9;
   color: #512da8;
   border-radius: 50%;
   display: flex;
@@ -741,12 +741,10 @@ mat-chip {
   font-size: 18px;
 }
 .edit-header h2 {
-  margin: 57px; /* تصغير المسافة الافتراضية */
-  padding-left: 0; /* التأكد من عدم وجود إزاحة يمين */
-  margin-top: -38px; /* تحريك العنوان للأعلى قليلاً */
-  margin-left: -37px; /* إزاحة بسيطة لليسار */
-
-  /* خصائص إضافية لجعل الخط أجمل */
+  margin: 57px;
+  padding-left: 0;
+  margin-top: -38px;
+  margin-left: -37px;
   font-size: 22px;
   font-weight: 700;
   color: #1a1a1a;
