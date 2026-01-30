@@ -36,9 +36,12 @@
         <!-- Dropdown to pick skills -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Qualifikation auswählen</mat-label>
-          <mat-select (selectionChange)="addSkillFromDropdown($event.value)">
+          <mat-select
+            [value]="empModel().skillSet"
+            (selectionChange)="onSkillsChange($event)"
+            multiple>
             @for (skillOption of availableSkills(); track skillOption.id) {
-              <mat-option [value]="skillOption.skill">{{ skillOption.skill }}</mat-option>
+              <mat-option [value]="skillOption">{{ skillOption.skill }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
@@ -58,10 +61,31 @@
       </div>
 
 
-      @if (empModel().skill.length === 0) {
-        <small class="error-text">Mindestens eine Qualifikation ist erforderlich</small>
+      @if (empModel().skillSet.length === 0) {
+
       }
     </div>
+      <div class="skills-container-panel"
+           [class.invalid-skills]="empModel().skillSet.length === 0">
+
+        <mat-chip-set>
+          @for (s of empModel().skillSet; track s.id) {
+            <mat-chip (removed)="removeSkill(s)">
+              {{ s.skill }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      </div>
+
+
+      @if (empModel().skillSet.length === 0) {
+        <small class="error-text">
+          Mindestens eine Qualifikation ist erforderlich
+        </small>
+      }
 
   <div class="form-row">
     <label>

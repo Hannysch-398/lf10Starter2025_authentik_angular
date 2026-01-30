@@ -2,7 +2,7 @@ import {FieldState, MaybeFieldTree} from "@angular/forms/signals";
 //import {EmployeeSkill} from "./EmployeeSkill";
 
 export interface Skill {
-  id: number | null;
+  id: number;
   postcode: string;
   skill: string;
   firstName: string;
@@ -10,13 +10,21 @@ export interface Skill {
   street: string;
   city: string;
   phone: string;
-
-
 }
 
-export const initialData: Skill = {
-  id: null,
-  skill: '',
+export interface EmployeeFormModel {
+  firstName: string;
+  lastName: string;
+  street: string;
+  postcode: string;
+  city: string;
+  phone: string;
+  skillSet: Skill[];
+}
+
+export const initialData: EmployeeFormModel = {
+
+  skillSet: [],
   firstName: '',
   lastName: '',
   street: '',
@@ -27,7 +35,7 @@ export const initialData: Skill = {
 
 export class Employee {
   constructor(
-    public id?: number,
+    public id?: number ,
     public lastName?: string,
     public firstName?: string,
     public street?: string,

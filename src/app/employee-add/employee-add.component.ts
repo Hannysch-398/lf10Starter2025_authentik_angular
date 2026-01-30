@@ -1,25 +1,17 @@
 import {Component, inject, signal} from '@angular/core';
-import {Employee, Skill, initialData} from "../Employee";
+import {Skill, initialData, EmployeeFormModel} from "../Employee";
 import {Field, form, FormField, pattern, required} from "@angular/forms/signals";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {EmployeeService} from "../employee.service";
-//import {EmployeeSkill, initialData, Skills} from "../EmployeeSkill";
 import {MatDialog} from "@angular/material/dialog";
 import {MatFormField, MatLabel} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatIcon} from "@angular/material/icon";
 import {MatChip, MatChipSet} from "@angular/material/chips";
 
-export interface EmployeeFormModel {
-  firstName: string;
-  lastName: string;
-  street: string;
-  postcode: string;
-  city: string;
-  phone: string;
-}
+
 
 @Component({
   selector: 'app-employee-add',
@@ -31,6 +23,8 @@ export interface EmployeeFormModel {
     MatSelect,
     MatOption,
     MatIcon,
+    MatChipSet,
+    MatChip,
 
   ],
   templateUrl: './employee-add.component.html',
@@ -38,10 +32,14 @@ export interface EmployeeFormModel {
 })
 class EmployeeAddComponent {
 
-  empModel= signal<Skill>({ ...initialData });
+  //empMode= signal<Skill>({ ...initialData });
+  empModel = signal<EmployeeFormModel>({ ...initialData });
   private employeeService = inject(EmployeeService);
   private dialog = inject(MatDialog);
   availableSkills = signal<Skill[]>([]);
+
+
+
 
   empForm = form(this.empModel, (schemaPath) => {
       required(schemaPath.firstName, {
@@ -67,7 +65,6 @@ class EmployeeAddComponent {
       message: 'Nur Zahlen erlaubt und die Postleitzahl muss 5-stellig sein'
     });
 
-    required(schemaPath.skill, { message: 'Bitte mindestens einen Skill auswählen' });
     }
 
 
@@ -81,13 +78,16 @@ class EmployeeAddComponent {
 
   //constructor(private store: EmployeeStoreService) {}->auf service warten
 
-  submitForm() {
+  submitForm2() {
     if (!this.empForm().valid) {
       alert('Bitte alle Pflichtfelder ausfüllen!');
+      console.log('Form invalid:', this.empForm().value());
       return;
     }
 
     const dto = this.empForm().value();
+    //skillSet: this.empModel().skillSet.map(s => s.skill)
+    console.log('Submitting employee:', dto);
     this.http.post('http://localhost:8089/employees', dto).subscribe({
       next: () => {
 
@@ -102,17 +102,46 @@ class EmployeeAddComponent {
     });
   }
 
+
+
+  submitForm() {
+    if (!this.empForm().valid) {
+      alert('Bitte alle Pflichtfelder ausfüllen!');
+      console.log('Form invalid:', this.empForm().value());
+      return;
+    }
+
+    const dto = {
+      ...this.empForm().value(),
+      // map Skill[] to string[] for backend
+      //skillSet: this.empModel().skillSet.map(s => s.skill)
+      skillSet: this.empModel().skillSet.map(s => s.id)
+    };
+
+    console.log('Submitting employee:', dto);
+
+    this.http.post('http://localhost:8089/employees', dto).subscribe({
+      next: () => this.router.navigate(['/employees']),
+      error: err => {
+        console.error('Add employee error:', err);
+        console.error('Status:', err.status);
+        console.error('Error body:', err.error);
+        alert('Speichern fehlgeschlagen');
+      }
+    });
+  }
+
   resetForm() {
     // alle Felder auf den ursprünglichen empModel-Wert zurücksetzen
     this.empModel.set({
-      id: null,
+
       firstName: '',
       lastName: '',
       street: '',
       postcode: '',
       city: '',
       phone: '',
-      skill: '',
+      skillSet: [],
     });
 
     // zusätzlich die Form-Fehler zurücksetzen
@@ -124,34 +153,19 @@ class EmployeeAddComponent {
   }
 
   addSkill() {
-    const skills = this.empModel().skill;
+    const skills = this.empModel().skillSet;
     this.empModel.update(emp => ({ ...emp, skills: [...skills, ''] }));
   }
 
 
-  updateSkill(index: number, value: string) {
-    const skills = [...this.empModel().skill];
-    skills[index] = value;
-    this.empModel.update(emp => ({ ...emp, skills }));
+
+  onSkillsChange(event: any) {
+    const selectedSkills: Skill[] = event.value; // Angular Material returns objects
+    this.empModel.update(emp => ({
+      ...emp,
+      skillSet: selectedSkills
+    }));
   }
-
-
-  onSkillsChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    const selected = Array.from(select.selectedOptions).map(option => option.value);
-
-    // update signal
-    this.empModel.update(emp => ({ ...emp, skills: selected }));
-  }
-  onSkillInput(event: Event, index: number) {
-    const input = event.target as HTMLInputElement;
-    this.updateSkill(index, input.value);
-  }
-
-
-
-
-
 
   ngOnInit() {
     this.employeeService.fetchData();
@@ -165,37 +179,31 @@ class EmployeeAddComponent {
     });
   }
 
-  addSkillFromDropdown(skill: Skill) {
-    this.empModel.update(model => {
-      if (model.skill.includes(skill.skill)) {
-        return model;
-      }
 
-      return {
-        ...model,
-        skills: [...model.skill, skill.skill],
-      };
-    });
-  }
 
   addSkillManually(skillName: string) {
     if (!skillName.trim()) return;
 
     this.employeeService.createNewQualification(skillName).subscribe({
-      next: (newSkill) => {
-
-        // 1️⃣ add to available skills
-        this.availableSkills.update(skills => [...skills, newSkill]);
-
-        // 2️⃣ add to the employee being created
-        this.empModel.update(emp => ({
-          ...emp,
-          skills: [...emp.skill, newSkill.skill]
+      next: (newSkill: Skill) => {
+        this.availableSkills.update(list => [...list, newSkill]);
+        this.empModel.update(model => ({
+          ...model,
+          skillSet: [...model.skillSet, newSkill]
         }));
       },
-      error: () => alert('Fehler beim Erstellen der Qualifikation')
+      error: (err) => console.error('Fehler beim Hinzufügen der Qualifikation', err)
     });
   }
+
+  removeSkill(skill: Skill) {
+    this.empModel.update(emp => ({
+      ...emp,
+      skillSet: emp.skillSet.filter(s => s.id !== skill.id)
+    }));
+  }
+
+
 }
 
 export default EmployeeAddComponent
