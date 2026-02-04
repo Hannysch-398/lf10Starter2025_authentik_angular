@@ -1,6 +1,8 @@
 .employee-container {
   padding: 20px;
   background-color: #E6F0F8;
+  min-height: calc(100vh - 80px);
+  padding-bottom: 100px;
 }
 
 .employee-row {
@@ -172,6 +174,7 @@
   letter-spacing: 0.5px;
   border-bottom: 2px solid #eaedf0;
   color: #26669b;
+  text-transform: uppercase;
 }
 
 
@@ -197,7 +200,7 @@
 
 .employee-row.active {
   background: #f0f7ff;
-  border-left: 5px solid #5f33e1;
+  border-left: 5px solid #26669b;
 }
 
 .name-box {
@@ -595,6 +598,7 @@ mat-chip {
   font-size: 24px;
   font-weight: 600;
   color: #1a1a1a;
+  margin-left: -23px !important;
 }
 
 
@@ -603,9 +607,13 @@ mat-chip {
   border-top: 1px solid #eee;
   margin: 0 24px 20px 24px;
 }
-.edit-dialog-close{
+
+.edit-dialog-close {
   margin-left: 374px;
+  background: transparent !important;
+  box-shadow: none !important;
 }
+
 ::ng-deep .mat-mdc-select-trigger {
   padding-right: 15px !important;
 }
@@ -619,6 +627,7 @@ mat-chip {
 ::ng-deep .mat-mdc-select-arrow-wrapper {
   transform: translateX(-5px);
 }
+
 .edit-profile-section {
   display: flex;
   flex-direction: column;
@@ -637,15 +646,15 @@ mat-chip {
 .large-avatar {
   width: 100%;
   height: 100%;
-  background-color: #d1c4e9;
-  color: #512da8;
+  background-color: #e6f0f8;
+  color: #26669b;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 36px;
   font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border: 4px solid white;
 }
 
@@ -662,7 +671,7 @@ mat-chip {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .edit-photo-btn mat-icon {
@@ -682,6 +691,7 @@ mat-chip {
   font-size: 13px;
   color: #666;
 }
+
 .search-wrapper {
   padding: 10px 0 20px 0;
   border: none;
@@ -740,6 +750,7 @@ mat-chip {
 .clear-btn mat-icon {
   font-size: 18px;
 }
+
 .edit-header h2 {
   margin: 57px;
   padding-left: 0;
@@ -750,6 +761,129 @@ mat-chip {
   color: #1a1a1a;
   letter-spacing: -0.5px;
 }
-.abbrechen{
-  margin-left: 16px;
+
+
+.edit-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
 }
+
+.edit-dialog-close {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: block !important;
+}
+
+.edit-header h2 {
+  margin-top: -35px !important;
+  margin-left: 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@media (max-width: 768px) {
+  .list-header {
+    display: none;
+  }
+
+
+  .employee-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .radio-container {
+    height: 10px !important;
+    width: 18px !important;
+    display: block;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .radio-section {
+    margin-left: 254px;
+    margin-top: -10px;
+    margin-bottom: -22px;
+    right: 15px;
+    top: 15px;
+  }
+
+  .checkmark {
+    height: 14px !important;
+    width: 14px !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+
+  .radio-container .checkmark:after {
+    top: 5px !important;
+    left: 5px !important;
+    width: 4px !important;
+    height: 4px !important;
+    border-radius: 50%;
+    background: #e6f0f8;
+  }
+
+  .name-section {
+    width: 100%;
+  }
+
+  .qualifications-section {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .edit-panel {
+    width: 100%;
+    left: -100%;
+  }
+
+  .footer-action-bar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .footer-action-bar button {
+    flex: 1;
+    font-size: 12px;
+    padding: 0 8px !important;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .footer-action-bar {
+    height: auto;
+    padding: 15px 10px;
+    flex-wrap: wrap;
+  }
+
+  .footer-action-bar button {
+    min-width: 45%;
+  }
+}
+
+
+.row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.row .half {
+  flex: 1;
+  min-width: 150px;
+}
+
+
+.edit-header button[mat-icon-button] {
+  overflow: visible !important;
+  margin-left: auto;
+}
+
