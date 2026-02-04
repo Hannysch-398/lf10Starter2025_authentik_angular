@@ -1,10 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { QualificationsStore } from "../../service/qualifications-store.service";
-import { EmployeeService } from "../../employee.service";
-import { Employee, Skill } from "../../Employee";
+import {Component, computed, effect, inject, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {toSignal} from '@angular/core/rxjs-interop';
+
+import {QualificationsStore} from '../../service/qualifications-store.service';
+import {EmployeeService} from '../../employee.service';
+import {Employee, Skill} from '../../Employee';
 
 @Component({
   selector: 'app-qualification-detail',
@@ -14,8 +16,14 @@ import { Employee, Skill } from "../../Employee";
   styleUrl: './qualification-detail.component.css',
 })
 export class QualificationDetailComponent {
-  skillSlug = signal<string>('');
+  private route = inject(ActivatedRoute);
+  public store = inject(QualificationsStore);
+  public employeeService = inject(EmployeeService);
+
   newEmployeeName = signal('');
+
+  private paramMapSig = toSignal(this.route.paramMap, { initialValue: null });
+  skillSlug = computed(() => this.paramMapSig()?.get('skill') ?? '');
 
   qualification = computed(() => this.store.findBySlug(this.skillSlug()));
 
@@ -23,18 +31,19 @@ export class QualificationDetailComponent {
     const q = this.qualification();
     if (!q) return [];
 
-    const employees = this.employeeService.employees();
+    const employees = this.employeeService.employees(); // <- Signal-Quelle
     return employees.filter(e => e.skillSet?.some(s => s.id === q.skillId));
   });
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: QualificationsStore,
-    private employeeService: EmployeeService
-  ) {
-    this.route.paramMap.subscribe(params => {
-      this.skillSlug.set(params.get('skill') ?? '');
-    });
+  // constructor(
+  //   private route: ActivatedRoute,
+  //   public store: QualificationsStore,
+  //   public employeeService: EmployeeService
+  // ) {
+  // }
+
+  ngOnInit() {
+    // wie in Overview
     this.employeeService.fetchData();
   }
 
@@ -45,16 +54,16 @@ export class QualificationDetailComponent {
 
     const employees = this.employeeService.employees();
 
-    // Match über "First Last" oder "Last, First"
+    // Match: "First Last" oder "Last, First"
+    const x = fullName.toLowerCase();
     const target = employees.find(e => {
       const a = `${e.firstName} ${e.lastName}`.trim().toLowerCase();
       const b = `${e.lastName}, ${e.firstName}`.trim().toLowerCase();
-      const x = fullName.toLowerCase();
       return x === a || x === b;
     });
 
     if (!target) {
-      console.error('Employee not found (kein Create Employee Endpoint vorhanden):', fullName);
+      console.error('Employee not found:', fullName);
       return;
     }
 
@@ -68,16 +77,17 @@ export class QualificationDetailComponent {
       ...target,
       skillSet: [
         ...(target.skillSet ?? []),
-        { id: q.skillId, skill: q.name } as Skill
-      ]
+        {id: q.skillId, skill: q.name} as Skill,
+      ],
     };
 
     this.employeeService.updateEmployee(target.id, updated).subscribe({
       next: () => {
+        // gleicher Datenfluss wie Overview: API -> fetch -> Signal aktualisiert -> UI updated
         this.employeeService.fetchData();
         this.newEmployeeName.set('');
       },
-      error: (err) => console.error('Update employee error:', err)
+      error: (err) => console.error('Update employee error:', err),
     });
   }
 
@@ -85,18 +95,13 @@ export class QualificationDetailComponent {
     const q = this.qualification();
     if (!q) return;
 
-    const employees = this.employeeService.employees();
-    const target = employees.find(e => e.id === employeeId);
-    if (!target) return;
-
-    const updated: Employee = {
-      ...target,
-      skillSet: (target.skillSet ?? []).filter(s => s.id !== q.skillId)
-    };
-
-    this.employeeService.updateEmployee(target.id, updated).subscribe({
-      next: () => this.employeeService.fetchData(),
-      error: (err) => console.error('Update employee error:', err)
-    });
+    this.employeeService
+      .removeQualificationFromEmployee(employeeId, q.skillId)
+      .subscribe({
+        next: () => this.employeeService.fetchData(),
+        error: (err) => console.error('Remove qualification error:', err),
+      });
   }
+
+
 }

@@ -53,7 +53,17 @@
               {{ q.name }}
             </a>
             <button class="icon-btn" type="button" (click)="startEdit(q.name)" aria-label="Edit">✏️</button>
-            <button class="icon-btn trash" type="button" (click)="openDeleteModal(q.name)" aria-label="Delete">🗑️</button>
+            <button
+              class="icon-btn trash"
+              type="button"
+              (click)="q.employees.length === 0 && openDeleteModal(q.name)"
+              [attr.aria-disabled]="q.employees.length > 0"
+              [class.disabled]="q.employees.length > 0"
+              aria-label="Delete"
+            >
+              🗑️
+            </button>
+
           }
         </div>
 

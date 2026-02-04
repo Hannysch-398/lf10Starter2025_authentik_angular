@@ -96,9 +96,13 @@ export class QualificationsStore {
       next: () => {
         this.qualifications.update(list => list.filter(q => q.skillId !== skillId));
       },
-      error: (err) => console.error('Delete error:', err)
+      error: (err) => {
+        console.error('Delete error:', err);
+        alert('Kann nicht gelöscht werden: Qualifikation ist noch Mitarbeitenden zugewiesen.');
+      }
     });
   }
+
 
   renameQualificationById(skillId: number, newName: string) {
     const name = newName.trim();
