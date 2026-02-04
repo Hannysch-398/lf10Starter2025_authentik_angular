@@ -1,7 +1,8 @@
-import {HttpClient} from "@angular/common/http";
-import {inject, Injectable, signal} from "@angular/core";
-import {Employee, Skill} from "./Employee";
-import {Observable} from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, signal } from "@angular/core";
+import { Employee, Skill } from "./Employee";
+import { Observable } from "rxjs";
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +24,10 @@ export class EmployeeService {
     });
   }
 
-
   getQualifications(): Observable<Skill[]> {
     return this.http.get<Skill[]>(this.qualUrl);
   }
+
   createNewQualification(skillName: string): Observable<Skill> {
     return this.http.post<Skill>(this.qualUrl, { skill: skillName });
   }
@@ -39,4 +40,19 @@ export class EmployeeService {
   deleteEmployee(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  removeQualificationFromEmployee(employeeId: number, qualificationId: number) {
+    return this.http.delete(
+      `${this.baseUrl}/${employeeId}/qualifications/${qualificationId}`
+    );
+  }
+
+  addQualificationToEmployee(employeeId: number, skillName: string) {
+    return this.http.post(
+      `${this.baseUrl}/${employeeId}/qualifications`,
+      { skill: skillName }
+    );
+  }
+
+
 }
