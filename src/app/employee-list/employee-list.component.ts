@@ -109,6 +109,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   protected addEmployee() {
+    /*
     const newEmp: Employee = {
       id: undefined,
       firstName: '',
@@ -120,7 +121,7 @@ export class EmployeeListComponent implements OnInit {
       skillSet: []
     };
     this.selectedEmployee.set(newEmp);
-    this.isEditMode.set(true);
+    this.isEditMode.set(true);*/
   }
 
   protected editEmployee() {
@@ -170,7 +171,7 @@ export class EmployeeListComponent implements OnInit {
     const isCity = !emp.city || emp.city.toString().trim() === '';
     const isSkillsInvalid = !emp.skillSet || emp.skillSet.length === 0;
 
-    if (isFirstNameInvalid || isLastNameInvalid || isStreetInvalid || isPostcodeInvalid || isCity ||isSkillsInvalid) {
+    if (isFirstNameInvalid || isLastNameInvalid || isStreetInvalid || isPostcodeInvalid || isCity || isSkillsInvalid) {
 
       alert('Bitte füllen Sie alle Pflichtfelder aus (Vorname, Nachname, Straße, PLZ, Stadt und mindestens ).');
       return;

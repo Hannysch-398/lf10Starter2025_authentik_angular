@@ -56,10 +56,12 @@
 </div>
 
 <div class="footer-action-bar">
+
   <button mat-flat-button class="add-btn-custom" (click)="addEmployee()">
     <mat-icon>person_add</mat-icon>
     Mitarbeiter hinzufügen
   </button>
+
 
   <button mat-stroked-button class="delete-btn-custom" (click)="deleteEmployee()" [disabled]="!selectedEmployee()">
     <mat-icon>delete</mat-icon>
@@ -80,22 +82,19 @@
       <mat-icon class="edit-dialog-close">close</mat-icon>
     </button>
     <h2>Mitarbeiter bearbeiten</h2>
-    <div class="edit-profile-section" *ngIf="selectedEmployee()">
-      <div class="profile-avatar-wrapper">
-        <div class="large-avatar">
-          {{ selectedEmployee()?.firstName?.[0] }}{{ selectedEmployee()?.lastName?.[0] }}
+    @if (selectedEmployee()) {
+      <div class="edit-profile-section">
+        <div class="profile-avatar-wrapper">
+          <div class="large-avatar">
+            {{ selectedEmployee()?.firstName?.[0] }}{{ selectedEmployee()?.lastName?.[0] }}
+          </div>
         </div>
 
-        <button class="edit-photo-btn" type="button">
-          <mat-icon>edit</mat-icon>
-        </button>
+        <div class="profile-info-text">
+          <h3>{{ selectedEmployee()?.firstName }} {{ selectedEmployee()?.lastName }}</h3>
+        </div>
       </div>
-
-      <div class="profile-info-text">
-        <h3>{{ selectedEmployee()?.firstName }} {{ selectedEmployee()?.lastName }}</h3>
-
-      </div>
-    </div>
+    }
   </div>
   <hr class="header-divider">
 
@@ -171,7 +170,6 @@
 
         <div class="skills-selection-group">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Qualifikation auswählen</mat-label>
             <mat-select (selectionChange)="addSkillFromDropdown($event.value)">
               @for (skillOption of allAvailableSkills(); track skillOption.id) {
                 <mat-option [value]="skillOption">{{ skillOption.skill }}</mat-option>
@@ -214,7 +212,7 @@
                 [disabled]="!emp.firstName || !emp.lastName || !emp.postcode || emp.skillSet.length === 0">
           Speichern
         </button>
-        <button mat-button (click)="closeEdit()">Abbrechen</button>
+        <button class="abbrechen" mat-button (click)="closeEdit()">Abbrechen</button>
       </div>
     </div>
   }
