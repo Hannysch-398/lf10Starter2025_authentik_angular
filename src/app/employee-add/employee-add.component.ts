@@ -10,6 +10,7 @@ import {MatFormField, MatLabel} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatIcon} from "@angular/material/icon";
 import {MatChip, MatChipSet} from "@angular/material/chips";
+import { Location } from '@angular/common';
 
 
 
@@ -38,7 +39,7 @@ class EmployeeAddComponent {
   private dialog = inject(MatDialog);
   availableSkills = signal<Skill[]>([]);
 
-
+  constructor(private location: Location) {}
 
 
   empForm = form(this.empModel, (schemaPath) => {
@@ -77,31 +78,6 @@ class EmployeeAddComponent {
   private authService = inject(AuthService);
 
   //constructor(private store: EmployeeStoreService) {}->auf service warten
-
-  submitForm2() {
-    if (!this.empForm().valid) {
-      alert('Bitte alle Pflichtfelder ausfüllen!');
-      console.log('Form invalid:', this.empForm().value());
-      return;
-    }
-
-    const dto = this.empForm().value();
-    //skillSet: this.empModel().skillSet.map(s => s.skill)
-    console.log('Submitting employee:', dto);
-    this.http.post('http://localhost:8089/employees', dto).subscribe({
-      next: () => {
-
-        this.router.navigate(['/employees']);
-      },
-      error: err => {
-        console.error('Add employee error:', err);
-        console.error('Status:', err.status);
-        console.error('Error body:', err.error);
-        alert('Speichern fehlgeschlagen');
-      }
-    });
-  }
-
 
 
   submitForm() {
@@ -202,7 +178,9 @@ class EmployeeAddComponent {
       skillSet: emp.skillSet.filter(s => s.id !== skill.id)
     }));
   }
-
+  goBack() {
+    this.location.back();
+  }
 
 }
 

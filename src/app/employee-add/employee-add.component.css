@@ -5,8 +5,12 @@
   max-width: 600px;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
-}
 
+}
+:host {
+  display: flex;
+  justify-content: center;
+}
 .employee-form h2 {
   text-align: center;
   font-size: 1.8rem;
@@ -209,6 +213,21 @@ input.invalid {
   align-items: center !important;
   justify-content: center !important;
   line-height: 1 !important;      /* entfernt Inline-Stretch */
+}
+.back-button {
+   /* kein Hintergrund */
+  border: none;          /* kein Rahmen */
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+}
+
+.back-button mat-icon {
+  color: var(--primary);           /* schwarz */
+  font-size: 24px;
 }
 
 
