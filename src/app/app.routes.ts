@@ -5,25 +5,27 @@ import { CallbackComponent } from './callback/callback.component';
 import { authGuard } from './auth.guard';
 import { QualificationsOverviewComponent } from './pages/qualifications-overview/qualifications-overview.component';
 import {QualificationDetailComponent} from "./pages/qualification-detail/qualification-detail.component";
+import {AccountComponent} from "./account/account.component";
+
 
 export const routes: Routes = [
-
   { path: 'callback', component: CallbackComponent },
-
 
   {
     path: '',
-     canActivateChild: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: 'Home' },
+
       { path: 'employees', component: EmployeeListComponent, title: 'Mitarbeiter' },
+
       { path: 'qualifications', component: QualificationsOverviewComponent, title: 'Qualifikationen' },
       { path: 'qualifications/:skill', component: QualificationDetailComponent, title: 'Qualifikation' },
 
-      // { path: 'account', component: AccountComponent, title: 'Account' }
+      { path: 'account', component: AccountComponent, title: 'Account' },
     ],
   },
 
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
