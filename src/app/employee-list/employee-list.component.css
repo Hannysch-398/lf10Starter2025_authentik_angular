@@ -783,66 +783,64 @@ mat-chip {
 }
 
 @media (max-width: 768px) {
+
   .list-header {
     display: none;
   }
 
-
   .employee-row {
+    position: relative;
     flex-direction: column;
     align-items: flex-start;
     padding: 15px;
     gap: 10px;
   }
 
-  .radio-container {
-    height: 10px !important;
-    width: 18px !important;
-    display: block;
-    position: relative;
-    cursor: pointer;
-  }
 
   .radio-section {
-    margin-left: 254px;
-    margin-top: -10px;
-    margin-bottom: -22px;
-    right: 15px;
-    top: 15px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    margin: 0 !important;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .radio-container {
+    height: 18px !important;
+    width: 18px !important;
   }
 
   .checkmark {
-    height: 14px !important;
-    width: 14px !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #eee;
-    border-radius: 50%;
+    height: 18px !important;
+    width: 18px !important;
   }
 
   .radio-container .checkmark:after {
-    top: 5px !important;
-    left: 5px !important;
-    width: 4px !important;
-    height: 4px !important;
-    border-radius: 50%;
-    background: #e6f0f8;
+    top: 6px !important;
+    left: 6px !important;
+    width: 6px !important;
+    height: 6px !important;
   }
 
-  .name-section {
+
+  .name-section,
+  .qualifications-section {
     width: 100%;
   }
 
   .qualifications-section {
-    width: 100%;
     justify-content: flex-start;
   }
 
-  .edit-panel {
-    width: 100%;
-    left: -100%;
+
+  .qual-list {
+    justify-content: flex-start;
+    gap: 8px;
   }
+
 
   .footer-action-bar {
     gap: 8px;
@@ -854,36 +852,11 @@ mat-chip {
     font-size: 12px;
     padding: 0 8px !important;
   }
-}
 
 
-@media (max-width: 480px) {
-  .footer-action-bar {
-    height: auto;
-    padding: 15px 10px;
-    flex-wrap: wrap;
+  .edit-panel {
+    width: 100%;
+    left: -100%;
   }
-
-  .footer-action-bar button {
-    min-width: 45%;
-  }
-}
-
-
-.row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.row .half {
-  flex: 1;
-  min-width: 150px;
-}
-
-
-.edit-header button[mat-icon-button] {
-  overflow: visible !important;
-  margin-left: auto;
 }
 
