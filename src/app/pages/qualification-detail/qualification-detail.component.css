@@ -45,6 +45,24 @@
   border-radius: 12px;
   /*display: flex;*/
   /*justify-content: space-between;*/
+
+}
+
+.suggestion {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+
+
+  .employee {
+    border: 1px solid #ddd;
+    background-color: white;
+    margin: 1rem 0;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .employee {

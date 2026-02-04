@@ -47,4 +47,12 @@ export class EmployeeService {
     );
   }
 
+  addQualificationToEmployee(employeeId: number, skillName: string) {
+    return this.http.post(
+      `${this.baseUrl}/${employeeId}/qualifications`,
+      { skill: skillName }
+    );
+  }
+
+
 }

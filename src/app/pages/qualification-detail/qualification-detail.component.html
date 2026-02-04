@@ -13,10 +13,36 @@
       />
       <button type="button" (click)="addEmployee()">Add employee</button>
     </div>
+    @if (employeeSuggestions().length > 0) {
+      <div class="details suggestion">
+        <p>Vorschläge: </p>
+        @for (s of employeeSuggestions(); track s.id) {
+          <div class="employee" (click)="addEmployeeBySuggestion(s)" style="cursor:pointer;">
+            <div class="big-avatar">
+              @if (s.avatarUrl) {
+                <img [src]="s.avatarUrl" alt="avatar"/>
+              } @else {
+                <span>{{ s.firstName?.[0] ?? s.lastName?.[0] ?? '?' }}</span>
+              }
+            </div>
+
+            <div class="employee-name">{{ s.lastName }}, {{ s.firstName }}</div>
+          </div>
+        }
+      </div>
+    } @else if (employeeSuggestions().length === 0 && newEmployeeName() !== "") {
+      <div class="details suggestion">
+        <p>Leider gibt es keine Mitarbeiter mit diesem Namen </p>
+      </div>
+    }
+
+
+
 
     <div class="details">
       @for (e of employeesForSkill(); track e.id) {
-        <div class="employee">
+        <div class="employee" >
+          <a class="employee" [routerLink]="['/employees', e.id]">
           <div class="big-avatar">
             @if (e.avatarUrl) {
               <img [src]="e.avatarUrl" alt="avatar"/>
@@ -25,6 +51,7 @@
             }
           </div>
           <div class="employee-name">{{ e.lastName }}, {{ e.firstName }}</div>
+          </a>
           <button
             class="trash"
             type="button"

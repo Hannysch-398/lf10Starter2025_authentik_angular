@@ -203,6 +203,12 @@
   background: #fafafa;
   border-radius: 12px;
   margin-bottom: 16px;
+
+  .employee {
+    border: 1px solid #ddd;
+    background-color: white;
+    margin: 1rem 0;
+  }
 }
 
 /* Employee row inside details */
