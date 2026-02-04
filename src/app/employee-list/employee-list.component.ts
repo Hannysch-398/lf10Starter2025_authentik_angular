@@ -1,7 +1,8 @@
-import {Component, inject, signal, computed, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Employee, Skill } from "../Employee";
 import {EmployeeService} from '../employee.service';
-import {Employee, Skill} from '../Employee';
+import { RouterModule } from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -10,7 +11,6 @@ import {MatChip, MatChipSet, MatChipRemove} from "@angular/material/chips";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatOption, MatSelectModule} from "@angular/material/select";
-
 
 @Component({
   selector: 'delete-confirm-dialog',
@@ -34,24 +34,22 @@ export class DeleteConfirmDialog {
 
 
 @Component({
-  selector: 'app-employee-list',
+    selector: 'app-employee-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatChipSet,
-    MatChip,
-    MatChipRemove,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOption
-  ],
-  templateUrl: './employee-list.component.html',
-  styleUrl: './employee-list.component.css'
+    imports: [CommonModule, RouterModule,  FormsModule,
+      MatIconModule,
+      MatButtonModule,
+      MatDialogModule,
+      MatChipSet,
+      MatChip,
+      MatChipRemove,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+      MatOption],
+
+    templateUrl: './employee-list.component.html',
+    styleUrl: './employee-list.component.css'
 })
 export class EmployeeListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
@@ -176,7 +174,6 @@ export class EmployeeListComponent implements OnInit {
       alert('Bitte füllen Sie alle Pflichtfelder aus (Vorname, Nachname, Straße, PLZ, Stadt und mindestens ).');
       return;
     }
-
     const payload = {
       ...emp,
       skillSet: emp.skillSet.map((s: any) => s.id)
