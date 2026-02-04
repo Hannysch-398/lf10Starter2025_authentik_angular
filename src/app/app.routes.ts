@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { CallbackComponent } from './callback/callback.component';
 import { authGuard } from './auth.guard';
+import {AccountComponent} from "./account/account.component";
 
 export const routes: Routes = [
   { path: 'callback', component: CallbackComponent }, // public
@@ -14,8 +15,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'employees', component: EmployeeListComponent,title: 'Mitarbeiter' },
       { path: 'home', component: HomeComponent, title: 'Home' },
+
      // {path: "qualifications", component:QualificationComponent, title: "Qualifikationen"},
-     // {path:"account", component: accountComponent, title: "Account"}
+     {path:"account", component: AccountComponent , title: "Account"}
     ],
   },
 
