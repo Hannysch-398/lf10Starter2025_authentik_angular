@@ -1,5 +1,5 @@
 <div class="page">
-  <a class="back" routerLink="/qualifications">← Back</a>
+  <a class="back" routerLink="/qualifications">← zurück</a>
 
   @if (qualification(); as q) {
     <h1 class="title">{{ q.name }}</h1>
@@ -7,11 +7,11 @@
     <div class="add-box">
       <input
         type="text"
-        placeholder="First name + Last name"
+        placeholder="Vorname + Nachname"
         [ngModel]="newEmployeeName()"
         (ngModelChange)="newEmployeeName.set($event)"
       />
-      <button type="button" (click)="addEmployee()">Add employee</button>
+      <button type="button" (click)="addEmployee()">Mitarbeiter hinzufügen</button>
     </div>
     @if (employeeSuggestions().length > 0) {
       <div class="details suggestion">
@@ -62,11 +62,11 @@
           </button>
         </div>
       } @empty {
-        <div class="empty">No employees yet.</div>
+        <div class="empty">Bisher besitzen keine Mitarbeiter diese Qualifikation.</div>
       }
     </div>
   } @else {
-    <h1 class="title">Skill not found</h1>
-    <p>Check the URL.</p>
+    <h1 class="title">Qualifikation konnte nicht gefunden werden</h1>
+    <p>URL überprüfen.</p>
   }
 </div>

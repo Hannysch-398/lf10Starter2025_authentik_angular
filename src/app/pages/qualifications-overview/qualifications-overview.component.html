@@ -6,13 +6,13 @@
       <input
         class="searchInput"
         type="text"
-        placeholder="Search (e.g. Java)"
+        placeholder="Suchen (z.B. Java)"
         [ngModel]="searchValue()"
         (ngModelChange)="searchValue.set($event)"
       />
       <button class="searchBtn" type="button">🔍</button>
       <button class="add-btn" type="button" (click)="toggleAdd()">
-        + Add skill
+        + Qualifikation hinzufügen
       </button>
     </div>
   </div>
@@ -21,11 +21,11 @@
     <div class="add-box">
       <input
         type="text"
-        placeholder="Skill name (e.g. React)"
+        placeholder="Qualifikation (z.B. React)"
         [ngModel]="newSkill()"
         (ngModelChange)="newSkill.set($event)"
       />
-      <button type="button" (click)="addSkill()">Add</button>
+      <button type="button" (click)="addSkill()">hinzufügen</button>
     </div>
   }
 
