@@ -94,43 +94,38 @@ export class QualificationDetailComponent {
     return merged.slice(0, 8);
   });
 
-  // Klick auf Vorschlag: übernimmt den Namen (oder direkt hinzufügen)
-  selectSuggestion(e: Employee) {
-    // nur ins Input übernehmen:
-    // this.newEmployeeName.set(this.fullName(e));
 
-    // Wenn du lieber "direkt hinzufügen" willst, kommentiere die Zeile oben aus
-    // und nutze stattdessen:
-    this.addEmployeeByExactEmployee(e);
-  }
+  // selectSuggestion(e: Employee) {
+  //   this.addEmployeeByExactEmployee(e);
+  // }
 
   // Optional: direkt hinzufügen ohne erneute Suche (nutzt deinen bisherigen Update-Flow)
-  addEmployeeByExactEmployee(target: Employee) {
-    const q = this.qualification();
-    if (!q) return;
-
-    const hasSkill = target.skillSet?.some(s => s.id === q.skillId) ?? false;
-    if (hasSkill) {
-      this.newEmployeeName.set('');
-      return;
-    }
-
-    const updated: Employee = {
-      ...target,
-      skillSet: [
-        ...(target.skillSet ?? []),
-        { id: q.skillId, skill: q.name } as Skill,
-      ],
-    };
-
-    this.employeeService.updateEmployee(target.id, updated).subscribe({
-      next: () => {
-        this.employeeService.fetchData();
-        this.newEmployeeName.set('');
-      },
-      error: (err) => console.error('Update employee error:', err),
-    });
-  }
+  // addEmployeeByExactEmployee(target: Employee) {
+  //   const q = this.qualification();
+  //   if (!q) return;
+  //
+  //   const hasSkill = target.skillSet?.some(s => s.id === q.skillId) ?? false;
+  //   if (hasSkill) {
+  //     this.newEmployeeName.set('');
+  //     return;
+  //   }
+  //
+  //   const updated: Employee = {
+  //     ...target,
+  //     skillSet: [
+  //       ...(target.skillSet ?? []),
+  //       { id: q.skillId, skill: q.name } as Skill,
+  //     ],
+  //   };
+  //
+  //   this.employeeService.updateEmployee(target.id, updated).subscribe({
+  //     next: () => {
+  //       this.employeeService.fetchData();
+  //       this.newEmployeeName.set('');
+  //     },
+  //     error: (err) => console.error('Update employee error:', err),
+  //   });
+  // }
 
   // ---------- LIFECYCLE ----------
 
