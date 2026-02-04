@@ -94,7 +94,7 @@
       @if (expandedQualification() === q.name) {
         <div class="details">
           @for (e of q.employees; track e.id) {
-            <a class="employee" [routerLink]="['/employees', e.id]">
+            <a class="employee" [routerLink]="['/employees']">
               <div class="big-avatar">
                 @if (e.avatarUrl) {
                   <img [src]="e.avatarUrl" alt="avatar" />

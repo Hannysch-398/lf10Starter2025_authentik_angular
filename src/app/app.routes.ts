@@ -16,7 +16,7 @@ export const routes: Routes = [
     canActivateChild: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, title: 'Home' },
+      // { path: 'home', component: HomeComponent, title: 'Home' },
       { path: 'employees', component: EmployeeListComponent, title: 'Mitarbeiter' },
       { path: 'qualifications', component: QualificationsOverviewComponent, title: 'Qualifikationen' },
       { path: 'qualifications/:skill', component: QualificationDetailComponent, title: 'Qualifikation' },
