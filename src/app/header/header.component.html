@@ -35,18 +35,17 @@
       <p>Account</p>
       <span>&rarr;</span>
     </a>
-    @if (auth.isLoggedIn()) {
+    @if(auth.isLoggedIn()){
     <a (click)="logout()" class="logout">Logout</a>
-
-    } @else {
+    }@else {
     <a (click)="login()" class="login">Login</a>
     }
   </nav>
 
   <div class="header-desktop">
-    <div class="logo-wrapper">
+    <a class="logo-wrapper" href="/home">
       <img [src]="'/HiTecLogo.png'" />
-    </div>
+    </a>
     <div class="link-wrapper">
       <a href="/home">Home</a>
       <a href="/employees">Mitarbeiter</a>
@@ -54,7 +53,6 @@
       <a href="/account">Account</a>
       @if (auth.isLoggedIn()) {
       <a (click)="logout()" class="logout">Logout</a>
-
       } @else {
       <a (click)="login()" class="login">Login</a>
       }

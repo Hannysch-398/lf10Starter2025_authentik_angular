@@ -86,6 +86,12 @@ export class AuthService {
   hasValidToken(): boolean {
     return this.oauthService.hasValidAccessToken();
   }
+/* maybe !! */
+  getAccessToken(): string {
+    return this.oauthService.getAccessToken();
+  }
+
+
 
   public async handleCallback(): Promise<boolean> {
     await this.configurePromise;

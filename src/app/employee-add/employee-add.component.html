@@ -1,0 +1,137 @@
+
+
+
+<!--<form (submit)="submitForm()" novalidate class="employee-form">-->
+  <form (submit)="$event.preventDefault(); submitForm()">
+    <div class="form-container">
+  <div class="form-header">
+    <h2>Mitarbeiter hinzufügen</h2>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Vorname</span>
+      <input type="text" [formField]="empForm.firstName" placeholder=""
+             [class.invalid]="empForm.firstName().invalid() && empForm.firstName().touched()" />
+      @if (empForm.firstName().invalid() && empForm.firstName().touched()) {
+        <span class="error-text">{{ empForm.firstName().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">Nachname</span>
+      <input type="text" [formField]="empForm.lastName" placeholder=""
+             [class.invalid]="empForm.lastName().invalid() && empForm.lastName().touched()" />
+      @if (empForm.lastName().invalid() && empForm.lastName().touched()) {
+        <span class="error-text">{{ empForm.lastName().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+
+    <div class="form-row full-width">
+      <label class="label-text">Skills</label>
+
+      <div class="skills-selection-group">
+        <!-- Dropdown to pick skills -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Qualifikation auswählen</mat-label>
+          <mat-select
+            [value]="empModel().skillSet"
+            (selectionChange)="onSkillsChange($event)"
+            multiple>
+            @for (skillOption of availableSkills(); track skillOption.id) {
+              <mat-option [value]="skillOption">{{ skillOption.skill }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Separator -->
+        <div class="separator"><span>oder manuell hinzufügen</span></div>
+
+        <!-- Manual input -->
+        <div class="input-wrapper add-skill-box">
+          <input #newSkillInput
+                 placeholder="Neue Qualifikation tippen..."
+                 (keyup.enter)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+          <button mat-icon-button class="small-icon-btn" type="button" (click)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+
+
+      @if (empModel().skillSet.length === 0) {
+
+      }
+    </div>
+      <div class="skills-container-panel"
+           [class.invalid-skills]="empModel().skillSet.length === 0">
+
+        <mat-chip-set>
+          @for (s of empModel().skillSet; track s.id) {
+            <mat-chip (removed)="removeSkill(s)">
+              {{ s.skill }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      </div>
+
+
+      @if (empModel().skillSet.length === 0) {
+        <small class="error-text">
+          Mindestens eine Qualifikation ist erforderlich
+        </small>
+      }
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Straße</span>
+      <input type="text" [formField]="empForm.street" placeholder=""
+             [class.invalid]="empForm.street().invalid() && empForm.street().touched()" />
+      @if (empForm.street().invalid() && empForm.street().touched()) {
+        <span class="error-text">{{ empForm.street().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">PLZ</span>
+      <input type="text" [formField]="empForm.postcode" placeholder=""
+             [class.invalid]="empForm.postcode().invalid() && empForm.postcode().touched()" />
+      @if (empForm.postcode().invalid() && empForm.postcode().touched()) {
+        <span class="error-text">{{ empForm.postcode().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span class="label-text">Stadt</span>
+      <input type="text" [formField]="empForm.city" placeholder=""
+             [class.invalid]="empForm.city().invalid() && empForm.city().touched()" />
+      @if (empForm.city().invalid() && empForm.city().touched()) {
+        <span class="error-text">{{ empForm.city().errors()?.[0]?.message }}</span>
+      }
+    </label>
+
+    <label>
+      <span class="label-text">Telefon</span>
+      <input type="text" [formField]="empForm.phone" placeholder=""
+             [class.invalid]="empForm.phone().invalid() && empForm.phone().touched()" />
+      @if (empForm.phone().invalid() && empForm.phone().touched()) {
+        <span class="error-text">{{ empForm.phone().errors()?.[0]?.message }}</span>
+      }
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" [disabled]="empForm().submitting()">Add Employee</button>
+    <button type="button" (click)="resetForm()">Reset</button>
+  </div>
+    </div>
+</form>
+
+
