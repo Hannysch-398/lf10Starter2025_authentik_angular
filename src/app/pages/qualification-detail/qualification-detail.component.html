@@ -41,7 +41,7 @@
 
     <div class="details">
       @for (e of employeesForSkill(); track e.id) {
-        <div class="employee" >
+        <div class="employee employee-wrapper" >
           <a class="employee" [routerLink]="['/employees', e.id]">
           <div class="big-avatar">
             @if (e.avatarUrl) {
