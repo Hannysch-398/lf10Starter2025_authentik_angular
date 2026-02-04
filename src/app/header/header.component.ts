@@ -4,12 +4,13 @@ import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 
 @Component({
-    selector: 'app-header',
-    imports: [
-        NgClass
-    ],
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
+  selector: 'app-header',
+  imports: [
+    NgClass
+  ],
+  templateUrl: './header.component.html',
+  standalone: true,
+  styleUrl: './header.component.css'
 })
 export class HeaderComponent {
   isOpen = false;
