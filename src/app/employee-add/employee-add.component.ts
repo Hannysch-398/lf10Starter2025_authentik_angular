@@ -1,6 +1,6 @@
 import {Component, inject, signal} from '@angular/core';
 import {Skill, initialData, EmployeeFormModel} from "../Employee";
-import {Field, form, FormField, pattern, required} from "@angular/forms/signals";
+import { form, FormField, pattern, required} from "@angular/forms/signals";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
