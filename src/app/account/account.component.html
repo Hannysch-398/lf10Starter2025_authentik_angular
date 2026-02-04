@@ -1,0 +1,23 @@
+<h1>Userinformationen</h1>
+@if (!auth.claims()) {
+  <p>Keine Informationen über den User vorhanden</p>
+
+} @else {
+  <div class="account-wrapper">
+    <div class="profilepic">{{ auth.claims()?.name?.charAt(0)?.toUpperCase() }}</div>
+    <form class="claims-form">
+      <div class="row">
+        <label class="label" for="username">Username</label>
+        <input class="input" id="username" disabled readonly [value]="auth.claims()?.preferred_username"/>
+      </div>
+      <div class="row">
+        <label class="label" for="name">Name</label>
+        <input class="input" id="name" disabled readonly [value]="auth.claims()?.name"/>
+      </div>
+      <div class="row">
+        <label class="label" for="email">E-mail</label>
+        <input class="input" id="email" disabled readonly [value]="auth.claims()?.email"/>
+      </div>
+    </form>
+  </div>
+}

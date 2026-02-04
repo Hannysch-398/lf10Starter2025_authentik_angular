@@ -1,3 +1,4 @@
+
 import {FieldState, MaybeFieldTree} from "@angular/forms/signals";
 //import {EmployeeSkill} from "./EmployeeSkill";
 
@@ -35,7 +36,7 @@ export const initialData: EmployeeFormModel = {
 
 export class Employee {
   constructor(
-    public id?: number ,
+    public id?: number,
     public lastName?: string,
     public firstName?: string,
     public street?: string,

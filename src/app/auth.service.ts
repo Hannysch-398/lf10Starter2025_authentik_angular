@@ -1,6 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import {computed, Injectable, signal} from '@angular/core';
 import { AuthConfig, OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
-
+type IdentityClaims = {
+  sub?: string;
+  name?: string;
+  given_name?: string;
+  family_name?: string;
+  preferred_username?: string;
+  email?: string;
+};
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authConfig: AuthConfig = {
@@ -19,11 +26,19 @@ export class AuthService {
 
   readonly isLoggedIn = signal<boolean>(false);
 
+  readonly claims = signal<IdentityClaims | null>(null);
+  readonly username = computed(() =>
+    this.claims()?.preferred_username
+    ?? this.claims()?.email
+    ?? this.claims()?.name
+    ?? null
+  );
+
   constructor(private oauthService: OAuthService) {
     this.configurePromise = this.configure();
 
     this.oauthService.events.subscribe((_e: OAuthEvent) => {
-      this.syncLoginState();
+      this.syncAuthState();
     });
   }
 
@@ -31,13 +46,16 @@ export class AuthService {
     this.oauthService.configure(this.authConfig);
     await this.oauthService.loadDiscoveryDocument();
 
-    this.syncLoginState();
-
+    this.syncAuthState();
     this.oauthService.setupAutomaticSilentRefresh();
   }
 
-  private syncLoginState() {
-    this.isLoggedIn.set(this.oauthService.hasValidAccessToken());
+  private syncAuthState() {
+    const loggedIn = this.oauthService.hasValidAccessToken();
+    this.isLoggedIn.set(loggedIn);
+
+    const identity = this.oauthService.getIdentityClaims() as IdentityClaims | null;
+    this.claims.set(identity);
   }
 
   ready(): Promise<void> {
@@ -47,7 +65,7 @@ export class AuthService {
   async tryRestoreLogin(): Promise<void> {
     await this.configurePromise;
     await this.oauthService.tryLoginCodeFlow();
-    this.syncLoginState();
+    this.syncAuthState();
   }
 
   async login(returnUrl?: string) {
