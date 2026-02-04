@@ -5,6 +5,13 @@
   <form (submit)="$event.preventDefault(); submitForm()">
     <div class="form-container">
   <div class="form-header">
+    <button
+      type="button"
+      class="back-button"
+      (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+
+    </button>
     <h2>Mitarbeiter hinzufügen</h2>
   </div>
 
