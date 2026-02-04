@@ -1,9 +1,218 @@
-<h1>LF10-Starter</h1>
-Wenn Sie in der EmployeeListComponent.ts ein gültiges Bearer-Token eintragen, sollten hier die Namen der in der Datenbank gespeicherten Mitarbeiter angezeigt werden!
-<ul>
-  @for(e of employees$ | async; track e.id) {
-    <li>
-      {{e.lastName }}, {{e.firstName}}
-    </li>
+<div class="employee-container">
+  <div class="search-wrapper">
+    <div class="custom-search-field">
+      <mat-icon class="search-icon">search</mat-icon>
+
+      <input type="text"
+             [ngModel]="searchTerm()"
+             (ngModelChange)="searchTerm.set($event)"
+             placeholder="Mitarbeiter suchen...">
+
+      @if (searchTerm()) {
+        <button class="clear-btn" (click)="searchTerm.set('')" type="button">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+  <div class="list-header">
+    <span class="header-item radio-col"></span>
+    <span class="header-item name-col">NAME</span>
+    <span class="header-item qual-col">QUALIFIKATIONEN</span>
+  </div>
+
+  @for (emp of filteredEmployees(); track emp.id) {
+    <div class="employee-row" (click)="selectEmployee(emp)" [class.active]="selectedEmployee()?.id === emp.id">
+      <div class="radio-section">
+        <label class="radio-container">
+          <input type="radio" name="selectedEmployee" [value]="emp.id" [checked]="selectedEmployee()?.id === emp.id">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <div class="name-section">
+        <div class="avatar-circle">
+          {{ emp.firstName?.[0] }}{{ emp.lastName?.[0] }}
+        </div>
+        <div class="employee-text">
+          <span class="full-name">{{ emp.firstName }} {{ emp.lastName }}</span>
+        </div>
+      </div>
+
+      <div class="qualifications-section">
+        <div class="skills-tags">
+          @if (emp.skillSet?.length) {
+            @for (s of emp.skillSet; track s.id) {
+              <span class="skill-badge">{{ s.skill }}</span>
+            }
+          } @else {
+            <span class="no-skill">Keine Qualifikation</span>
+          }
+        </div>
+      </div>
+    </div>
   }
-</ul>
+</div>
+
+<div class="footer-action-bar">
+
+  <button mat-flat-button class="add-btn-custom" routerLink="/employees/add">
+    <mat-icon>person_add</mat-icon>
+    Mitarbeiter hinzufügen
+  </button>
+
+
+  <button mat-stroked-button class="delete-btn-custom" (click)="deleteEmployee()" [disabled]="!selectedEmployee()">
+    <mat-icon>delete</mat-icon>
+    Löschen
+  </button>
+
+  <button mat-stroked-button class="edit-btn-custom" (click)="editEmployee()" [disabled]="!selectedEmployee()">
+    <mat-icon>edit</mat-icon>
+    Bearbeiten
+  </button>
+</div>
+
+<div class="overlay" [class.visible]="isEditMode()" (click)="closeEdit()"></div>
+
+<div class="edit-panel" [class.open]="isEditMode()">
+  <div class="edit-header">
+    <button class="edit-dialog-close" mat-icon-button (click)="closeEdit()">
+      <mat-icon >close</mat-icon>
+    </button>
+    <h2>Mitarbeiter bearbeiten</h2>
+    @if (selectedEmployee()) {
+      <div class="edit-profile-section">
+        <div class="profile-avatar-wrapper">
+          <div class="large-avatar">
+            {{ selectedEmployee()?.firstName?.[0] }}{{ selectedEmployee()?.lastName?.[0] }}
+          </div>
+        </div>
+
+        <div class="profile-info-text">
+          <h3>{{ selectedEmployee()?.firstName }} {{ selectedEmployee()?.lastName }}</h3>
+        </div>
+      </div>
+    }
+  </div>
+  <hr class="header-divider">
+
+  @if (selectedEmployee(); as emp) {
+    <div class="edit-container-inner">
+
+      <div class="row">
+        <div class="edit-field half">
+          <label>Vorname</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.firstName" name="firstName" required #firstName="ngModel"
+                   [class.invalid-border]="firstName.invalid && firstName.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (firstName.invalid && firstName.touched) {
+            <small class="error-text">Vorname ist erforderlich</small>
+          }
+        </div>
+
+        <div class="edit-field half">
+          <label>Nachname</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.lastName" name="lastName" required #lastName="ngModel"
+                   [class.invalid-border]="lastName.invalid && lastName.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (lastName.invalid && lastName.touched) {
+            <small class="error-text">Nachname ist erforderlich</small>
+          }
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label>Straße</label>
+        <div class="input-wrapper">
+          <input [(ngModel)]="emp.street" name="street" required #street="ngModel"
+                 [class.invalid-border]="street.invalid && street.touched">
+          <mat-icon>edit</mat-icon>
+        </div>
+        @if (street.invalid && street.touched) {
+          <small class="error-text">Straße ist erforderlich</small>
+        }
+      </div>
+
+      <div class="row">
+        <div class="edit-field small">
+          <label>PLZ</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.postcode" name="postcode" required #postcode="ngModel"
+                   [class.invalid-border]="postcode.invalid && postcode.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (postcode.invalid && postcode.touched) {
+            <small class="error-text">PLZ fehlt</small>
+          }
+        </div>
+
+        <div class="edit-field large">
+          <label>Stadt</label>
+          <div class="input-wrapper">
+            <input [(ngModel)]="emp.city" name="city" required #city="ngModel"
+                   [class.invalid-border]="city.invalid && city.touched">
+            <mat-icon>edit</mat-icon>
+          </div>
+          @if (city.invalid && city.touched) {
+            <small class="error-text">Stadt ist erforderlich</small>
+          }
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label>Qualifikationen (Skills)</label>
+
+        <div class="skills-selection-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-select (selectionChange)="addSkillFromDropdown($event.value)">
+              @for (skillOption of allAvailableSkills(); track skillOption.id) {
+                <mat-option [value]="skillOption">{{ skillOption.skill }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="separator"><span>oder manuell hinzufügen</span></div>
+
+          <div class="input-wrapper add-skill-box">
+            <input #newSkillInput
+                   placeholder="Neue Qualifikation tippen..."
+                   (keyup.enter)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+            <button mat-icon-button (click)="addSkillManually(newSkillInput.value); newSkillInput.value = ''">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="skills-container-panel" [class.invalid-skills]="emp.skillSet.length === 0">
+          <mat-chip-set>
+            @for (s of emp.skillSet; track s.id) {
+              <mat-chip (removed)="removeSkill(s)">
+                {{ s.skill }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+
+        @if (emp.skillSet.length === 0) {
+          <small class="error-text">Mindestens eine Qualifikation ist erforderlich</small>
+        }
+      </div>
+
+      <div class="edit-actions-panel">
+        <button mat-raised-button color="primary" (click)="saveChanges()"
+                [disabled]="!emp.firstName || !emp.lastName || !emp.postcode || emp.skillSet.length === 0">
+          Speichern
+        </button>
+        <button class="abbrechen" mat-button (click)="closeEdit()">Abbrechen</button>
+      </div>
+    </div>
+  }
+</div>

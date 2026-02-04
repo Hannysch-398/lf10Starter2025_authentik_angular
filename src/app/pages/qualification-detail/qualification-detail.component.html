@@ -1,0 +1,72 @@
+<div class="page">
+  <a class="back" routerLink="/qualifications">← zurück</a>
+
+  @if (qualification(); as q) {
+    <h1 class="title">{{ q.name }}</h1>
+
+    <div class="add-box">
+      <input
+        type="text"
+        placeholder="Vorname + Nachname"
+        [ngModel]="newEmployeeName()"
+        (ngModelChange)="newEmployeeName.set($event)"
+      />
+      <button type="button" (click)="addEmployee()">Mitarbeiter hinzufügen</button>
+    </div>
+    @if (employeeSuggestions().length > 0) {
+      <div class="details suggestion">
+        <p>Vorschläge: </p>
+        @for (s of employeeSuggestions(); track s.id) {
+          <div class="employee" (click)="addEmployeeBySuggestion(s)" style="cursor:pointer;">
+            <div class="big-avatar">
+              @if (s.avatarUrl) {
+                <img [src]="s.avatarUrl" alt="avatar"/>
+              } @else {
+                <span>{{ s.firstName?.[0] ?? s.lastName?.[0] ?? '?' }}</span>
+              }
+            </div>
+
+            <div class="employee-name">{{ s.lastName }}, {{ s.firstName }}</div>
+          </div>
+        }
+      </div>
+    } @else if (employeeSuggestions().length === 0 && newEmployeeName() !== "") {
+      <div class="details suggestion">
+        <p>Leider gibt es keine Mitarbeiter mit diesem Namen </p>
+      </div>
+    }
+
+
+
+
+    <div class="details">
+      @for (e of employeesForSkill(); track e.id) {
+        <div class="employee employee-wrapper" >
+          <a class="employee" [routerLink]="['/employees']">
+          <div class="big-avatar">
+            @if (e.avatarUrl) {
+              <img [src]="e.avatarUrl" alt="avatar"/>
+            } @else {
+              <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
+            }
+          </div>
+          <div class="employee-name">{{ e.lastName }}, {{ e.firstName }}</div>
+          </a>
+          <button
+            class="trash"
+            type="button"
+            aria-label="Remove employee"
+            (click)="removeEmployee(e.id)"
+          >
+            🗑️
+          </button>
+        </div>
+      } @empty {
+        <div class="empty">Bisher besitzen keine Mitarbeiter diese Qualifikation.</div>
+      }
+    </div>
+  } @else {
+    <h1 class="title">Qualifikation konnte nicht gefunden werden</h1>
+    <p>URL überprüfen.</p>
+  }
+</div>

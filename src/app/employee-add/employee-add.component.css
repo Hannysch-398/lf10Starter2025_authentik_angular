@@ -1,0 +1,234 @@
+.employee-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+
+}
+:host {
+  display: flex;
+  justify-content: center;
+}
+.employee-form h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+
+label {
+  flex: 1;
+  min-width: 150px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+input:focus {
+  outline: none;
+  border-color:var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 5px;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(0.85);
+}
+
+button:disabled {
+  filter: brightness(0.85);
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background-color: #6c757d;
+}
+
+button[type="button"]:hover {
+  background-color: #495057;
+}
+.error-text {
+  color: #d93025;
+  font-size: 0.85rem;
+  margin-top: 0.25rem; /* Abstand unter Input */
+}
+
+input.invalid {
+  border-color: #d93025;
+  background-color: #fff5f5;
+}
+.input-wrapper {
+   position: relative;
+ }
+
+.error-overlay {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 0.75rem;
+  color: #d93025;
+  pointer-events: none;
+}
+
+
+
+.checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* space between checkboxes horizontally */
+}
+
+.skill-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.skill-label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;   /* use full width of parent row */
+  gap: 6px;
+}
+
+.dropdown-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+
+
+.dropdown-item {
+  display: flex;          /* make checkbox and text inline */
+  align-items: center;    /* vertically center checkbox and text */
+  gap: 6px;               /* space between checkbox and text */
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.selected-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.skill-badge {
+  background-color: var(--primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+.form-row.full-width {
+  grid-column: 1 / -1; /* span from first to last column */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: auto; /* don’t force 100% */
+}
+.small-icon-btn {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  background-color: var(--primary);
+  color: white;
+}
+
+.add-skill-box{
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.small-icon-btn mat-icon {
+  font-size: 20px !important;     /* Icon proportional */
+  width: 20px !important;         /* Icon quadratisch */
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;      /* entfernt Inline-Stretch */
+}
+.back-button {
+   /* kein Hintergrund */
+  border: none;          /* kein Rahmen */
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+}
+
+.back-button mat-icon {
+  color: var(--primary);           /* schwarz */
+  font-size: 24px;
+}
+
+
+

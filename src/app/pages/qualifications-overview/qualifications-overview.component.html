@@ -1,0 +1,135 @@
+<div class="page">
+  <h1 class="title">Qualifikationen</h1>
+
+  <div class="toolbar">
+    <div class="search">
+      <input
+        class="searchInput"
+        type="text"
+        placeholder="Suchen (z.B. Java)"
+        [ngModel]="searchValue()"
+        (ngModelChange)="searchValue.set($event)"
+      />
+      <button class="searchBtn" type="button">🔍</button>
+      <button class="add-btn" type="button" (click)="toggleAdd()">
+        + Qualifikation hinzufügen
+      </button>
+    </div>
+  </div>
+
+  @if (showAdd()) {
+    <div class="add-box">
+      <input
+        type="text"
+        placeholder="Qualifikation (z.B. React)"
+        [ngModel]="newSkill()"
+        (ngModelChange)="newSkill.set($event)"
+      />
+      <button type="button" (click)="addSkill()">hinzufügen</button>
+    </div>
+  }
+
+  <div class="list">
+    @for (q of filteredQualifications(); track q.name) {
+
+      <!-- ROW -->
+      <div class="row">
+
+        <!-- name + edit + delete-->
+        <div class="name-area">
+          @if (editingSlug() === slugify(q.name)) {
+            <input
+              class="edit-input"
+              type="text"
+              [ngModel]="editValue()"
+              (ngModelChange)="editValue.set($event)"
+              (keydown.enter)="saveEdit(q.name)"
+              (keydown.escape)="cancelEdit()"
+            />
+            <button class="icon-btn" type="button" (click)="saveEdit(q.name)" aria-label="Save">✅</button>
+            <button class="icon-btn" type="button" (click)="cancelEdit()" aria-label="Cancel">✖️</button>
+          } @else {
+            <a class="title-link" [routerLink]="['/qualifications', slugify(q.name)]">
+              {{ q.name }}
+            </a>
+            <button class="icon-btn" type="button" (click)="startEdit(q.name)" aria-label="Edit">✏️</button>
+            <button
+              class="icon-btn trash"
+              type="button"
+              (click)="q.employees.length === 0 && openDeleteModal(q.name)"
+              [attr.aria-disabled]="q.employees.length > 0"
+              [class.disabled]="q.employees.length > 0"
+              aria-label="Delete"
+            >
+              🗑️
+            </button>
+
+          }
+        </div>
+
+        <!-- AVATARS -->
+        <div class="people">
+          @for (e of q.employees.slice(0, 2); track e.id) {
+            <div class="avatar">
+              @if (e.avatarUrl) {
+                <img [src]="e.avatarUrl" alt="avatar" />
+              } @else {
+                <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
+              }
+            </div>
+          }
+
+          @if (q.employees.length > 2) {
+            <div class="more">+{{ q.employees.length - 2 }}</div>
+          }
+        </div>
+
+        <!-- ARROW -->
+        <button class="arrow" type="button" (click)="toggle(q.name)">
+          {{ expandedQualification() === q.name ? '▲' : '▼' }}
+        </button>
+      </div>
+
+      <!-- DETAILS -->
+      @if (expandedQualification() === q.name) {
+        <div class="details">
+          @for (e of q.employees; track e.id) {
+            <a class="employee" [routerLink]="['/employees']">
+              <div class="big-avatar">
+                @if (e.avatarUrl) {
+                  <img [src]="e.avatarUrl" alt="avatar" />
+                } @else {
+                  <span>{{ e.firstName?.[0] ?? e.lastName?.[0] ?? '?' }}</span>
+                }
+              </div>
+              <div class="employee-name">{{ e.lastName }}, {{ e.firstName }}</div>
+            </a>
+          }
+        </div>
+      }
+
+    }
+  </div>
+
+  @if (deleteModalOpen()) {
+    <div class="modal-backdrop" (click)="closeDeleteModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h2 class="modal-title">Qualifikation löschen</h2>
+
+        <p class="modal-text">
+          Möchtest du <strong>"{{ deleteTargetName() }}"</strong> wirklich löschen?
+        </p>
+
+        <div class="modal-actions">
+          <button class="modal-btn cancel" type="button" (click)="closeDeleteModal()">
+            Abbrechen
+          </button>
+          <button class="modal-btn danger" type="button" (click)="confirmDelete()">
+            Löschen
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
