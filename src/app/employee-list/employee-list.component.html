@@ -36,7 +36,6 @@
         </div>
         <div class="employee-text">
           <span class="full-name">{{ emp.firstName }} {{ emp.lastName }}</span>
-          <span class="status-label">Verfügbar</span>
         </div>
       </div>
 
@@ -78,8 +77,8 @@
 
 <div class="edit-panel" [class.open]="isEditMode()">
   <div class="edit-header">
-    <button mat-icon-button (click)="closeEdit()">
-      <mat-icon class="edit-dialog-close">close</mat-icon>
+    <button class="edit-dialog-close" mat-icon-button (click)="closeEdit()">
+      <mat-icon >close</mat-icon>
     </button>
     <h2>Mitarbeiter bearbeiten</h2>
     @if (selectedEmployee()) {
