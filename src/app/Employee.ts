@@ -1,29 +1,29 @@
 export interface Skill {
   id: number;
   skill: string;
-  firstName: string;
-  lastName: string;
-  street: string;
-  postcode: number;
-  city: string;
-  phone: string;
+  // firstName: string;
+  // lastName: string;
+  // street: string;
+  // postcode: number;
+  // city: string;
+  // phone: string;
 
 
 }
-
-export class Employee {
-  constructor(
-    public id?: number,
-    public lastName?: string,
-    public firstName?: string,
-    public street?: string,
-    public postcode?: string,
-    public city?: string,
-    public phone?: string,
-    public skillSet: Skill[] = []// skills oder Qualifications
-  ) {
-  }
-}
+//
+// export class Employee {
+//   constructor(
+//     public id?: number,
+//     public lastName?: string,
+//     public firstName?: string,
+//     public street?: string,
+//     public postcode?: string,
+//     public city?: string,
+//     public phone?: string,
+//     public skillSet: Skill[] = []// skills oder Qualifications
+//   ) {
+//   }
+// }
 
 export interface Employee {
   id: number;
@@ -33,9 +33,7 @@ export interface Employee {
   postcode?: string;
   city?: string;
   phone?: string;
-  // Backend-Feldname!
   skillSet: Skill[];
-  // optional fürs UI (nicht vom Backend zwingend)
   avatarUrl?: string;
 
 }

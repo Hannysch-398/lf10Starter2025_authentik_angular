@@ -17,12 +17,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: 'Home' },
-
       { path: 'employees', component: EmployeeListComponent, title: 'Mitarbeiter' },
-
       { path: 'qualifications', component: QualificationsOverviewComponent, title: 'Qualifikationen' },
       { path: 'qualifications/:skill', component: QualificationDetailComponent, title: 'Qualifikation' },
-
       { path: 'account', component: AccountComponent, title: 'Account' },
     ],
   },
