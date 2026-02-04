@@ -1,9 +1,12 @@
 <div class="wrapper">
-  <h1>Hallo {{auth.claims()?.name}}!</h1>
-
+  <div class="container">
+  <h1>Hallo, <br> {{ auth.claims()?.name }}!</h1>
+  <div class="background">
+  <img [src]="'/team.svg'"/>
+  </div></div>
   <div class="button-wrapper">
-  <a href="/employees" class="overview-button"><h2>Mitarbeiter</h2></a>
-  <a href="/qualifications" class="overview-button"><h2>Qualifikationen</h2></a>
-</div>
+    <a href="/employees" class="overview-button"><h2>Mitarbeiter</h2></a>
+    <a href="/qualifications" class="overview-button"><h2>Qualifikationen</h2></a>
+  </div>
 
 </div>

@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 50vh;
+  height: 40vh;
   margin: 0 auto;
 
 }
@@ -34,4 +34,31 @@
 
 h1{
   text-align: left ;
+  font-size: 5rem;
+  /*margin-left: -10rem;*/
+  color: var(--primary);
+
+  @media (max-width: 1000px) {
+
+    font-size: 4rem;
+    line-height: 1;
+    text-align: center;
+
+  }
+}
+
+.background{
+  width: 18rem;
+}
+
+.container{
+  display: flex;
+ flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 1000px) {
+    justify-content: space-between;
+    flex-direction: row;
+  }
 }
